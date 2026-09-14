@@ -41,6 +41,7 @@ Indicator – a social-engineering tactic family detected in text.
 | FR-16 | Show confusion matrix, precision, recall, F1, ROC-AUC | Must | `test_classifier.py`, dashboard |
 | FR-17 | Record model version, processing time, anonymised metadata | Must | `test_api.py::test_persisted_metadata_has_no_text` |
 | FR-18 | Health endpoint and OpenAPI docs | Must | `test_api.py` |
+| FR-19 | Prometheus metrics endpoint with anonymised aggregates | Should | `test_metrics.py` |
 
 ## 4. Non-functional requirements
 

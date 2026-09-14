@@ -45,3 +45,6 @@ data/uploads/
 .vscode/
 .idea/
 .DS_Store
+
+# Observability credentials
+observability/.env

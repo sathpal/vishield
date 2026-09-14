@@ -1,0 +1,41 @@
+// ViShield -> Grafana Cloud. Alloy scrapes the API's /metrics (Prometheus format),
+// converts to OTLP and ships through the Grafana Cloud OTLP gateway.
+// Only anonymised aggregates leave the machine: no transcripts, no audio.
+
+prometheus.scrape "vishield" {
+  targets = [{
+    __address__ = sys.env("VISHIELD_METRICS_TARGET"),
+    job         = "vishield-api",
+    instance    = sys.env("VISHIELD_INSTANCE_NAME"),
+    env         = sys.env("VISHIELD_ENV_NAME"),
+  }]
+  metrics_path    = "/metrics"
+  scrape_interval = "15s"
+  forward_to      = [otelcol.receiver.prometheus.vishield.receiver]
+}
+
+otelcol.receiver.prometheus "vishield" {
+  output {
+    metrics = [otelcol.processor.batch.default.input]
+  }
+}
+
+otelcol.processor.batch "default" {
+  timeout         = "5s"
+  send_batch_size = 512
+  output {
+    metrics = [otelcol.exporter.otlphttp.grafana_cloud.input]
+  }
+}
+
+otelcol.auth.basic "grafana_cloud" {
+  username = sys.env("GRAFANA_CLOUD_INSTANCE_ID")
+  password = sys.env("GRAFANA_CLOUD_API_TOKEN")
+}
+
+otelcol.exporter.otlphttp "grafana_cloud" {
+  client {
+    endpoint = sys.env("GRAFANA_CLOUD_OTLP_ENDPOINT")
+    auth     = otelcol.auth.basic.grafana_cloud.handler
+  }
+}

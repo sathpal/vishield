@@ -76,6 +76,13 @@ redaction_total, transcript_sha256, duration_seconds. **No transcript, no audio,
 `vishield.config.Settings` (pydantic-settings, prefix `VISHIELD_`, `.env` support). Seeds are
 fixed (`RANDOM_SEED = 42`). No module reads environment variables directly.
 
+## Observability
+
+`infra/metrics.py` holds a dedicated Prometheus registry. The service records outcome
+metrics (analyses by level, score/component histograms, indicators, redactions), the error
+handler records rejection codes, and a Starlette middleware records per-route HTTP counts and
+latency. `observability/` ships them to Grafana Cloud via Alloy and generates the dashboard.
+
 ## Deployment
 
 Single image (`Dockerfile`) runs API by default; `docker-compose.yml` starts API + dashboard

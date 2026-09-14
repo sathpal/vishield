@@ -33,6 +33,7 @@ dependencies = [
   "plotly>=5.20,<6.0",
   "pandas>=2.2,<3.0",
   "requests>=2.31,<3.0",
+  "prometheus-client>=0.20",
 ]
 
 [project.optional-dependencies]
@@ -73,6 +74,7 @@ ignore = ["S101", "RUF012"]
 "src/vishield/domain/redaction.py" = ["E501"]
 "src/vishield/dashboard/**" = ["E501", "RUF001"]
 "scripts/**" = ["S603", "S607"]
+"scripts/push_grafana_dashboard.py" = ["E501"]
 
 [tool.mypy]
 python_version = "3.11"
@@ -84,7 +86,7 @@ packages = ["vishield"]
 exclude = ["src/vishield/dashboard/"]
 
 [[tool.mypy.overrides]]
-module = ["librosa", "librosa.*", "soundfile", "sklearn", "sklearn.*", "joblib", "plotly", "plotly.*", "streamlit", "streamlit.*", "faster_whisper"]
+module = ["prometheus_client", "prometheus_client.*", "librosa", "librosa.*", "soundfile", "sklearn", "sklearn.*", "joblib", "plotly", "plotly.*", "streamlit", "streamlit.*", "faster_whisper"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]

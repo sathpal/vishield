@@ -9,6 +9,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
 from vishield.audio.validation import AudioValidationError
+from vishield.infra.metrics import record_error
 from vishield.services.analyzer import EmptyTranscriptError
 from vishield.stt import STTUnavailableError
 
@@ -16,6 +17,7 @@ log = logging.getLogger(__name__)
 
 
 def _problem(status: int, code: str, message: str) -> JSONResponse:
+    record_error(code)
     return JSONResponse(status_code=status, content={"error": {"code": code, "message": message}})
 
 

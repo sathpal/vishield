@@ -95,6 +95,7 @@ vishield/
 | POST | `/evaluate/batch` | score many items; metrics if labels supplied |
 | GET | `/models/info` | model version, weights, thresholds, feature flags |
 | GET | `/safety/policy` | permitted/prohibited uses and data handling |
+| GET | `/metrics` | Prometheus metrics (anonymised aggregates) |
 
 Interactive docs at `/docs`. Errors are `{ "error": { "code", "message" } }` with stable codes
 (`audio_too_large`, `audio_bad_extension`, `empty_transcript`, `stt_unavailable`, …).
@@ -109,6 +110,19 @@ say nothing about real-world performance.** See `docs/EXPERIMENTS.md`.
 | Rules only (Baseline A) | 0.85 | 1.00 | 0.79 | 0.88 | 0.95 |
 | TF-IDF + LR (Baseline B) | 0.85 | 0.82 | 1.00 | 0.90 | 0.99 |
 | Hybrid (0.4 rules / 0.5 ML) | 0.95 | 0.93 | 1.00 | 0.97 | 0.99 |
+
+## Metrics and Grafana Cloud
+
+The API exposes Prometheus metrics at `/metrics` (anonymised aggregates only). `observability/`
+contains an Alloy pipeline that ships them to Grafana Cloud and a dashboard-as-code script:
+
+```bash
+make observability-up   # Alloy scrapes localhost:8000/metrics -> Grafana Cloud (needs observability/.env)
+make dashboard          # push the "ViShield — Voice Phishing Detection Overview" dashboard
+make traffic            # replay fictional transcripts to populate the panels
+```
+
+See [observability/README.md](observability/README.md).
 
 ## Configuration
 

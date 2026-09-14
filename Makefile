@@ -5,7 +5,7 @@ BIN := $(VENV)/bin
 PORT_API ?= 8000
 PORT_UI ?= 8501
 
-.PHONY: help setup setup-uv install-stt demo-wav run-api run-ui run test test-cov lint typecheck format \
+.PHONY: help setup setup-uv install-stt demo-wav observability-up observability-down dashboard traffic run-api run-ui run test test-cov lint typecheck format \
         check audit data train evaluate docker-build docker-up docker-down clean
 
 help:
@@ -76,6 +76,18 @@ docker-up: ## Run API + dashboard via compose
 
 docker-down:
 	docker compose down -v
+
+observability-up: ## Start Alloy shipping /metrics to Grafana Cloud (needs observability/.env)
+	docker compose -f observability/docker-compose.observability.yml --env-file observability/.env up -d
+
+observability-down:
+	docker compose -f observability/docker-compose.observability.yml --env-file observability/.env down
+
+dashboard: ## Generate and push the Grafana dashboard (needs GRAFANA_URL + GRAFANA_SA_TOKEN)
+	$(BIN)/python scripts/push_grafana_dashboard.py
+
+traffic: ## Replay fictional transcripts through the API for 5 minutes to populate metrics
+	$(BIN)/python scripts/generate_traffic.py --minutes 5
 
 clean:
 	rm -rf .pytest_cache .mypy_cache .ruff_cache htmlcov coverage.xml build dist *.egg-info

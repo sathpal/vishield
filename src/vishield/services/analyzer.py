@@ -32,6 +32,7 @@ from vishield.domain.recommendations import recommend
 from vishield.domain.redaction import redact
 from vishield.domain.risk_engine import RiskThresholds, RiskWeights, explain, fuse
 from vishield.domain.rules import build_indicators, detect_hits, rule_count, rule_score
+from vishield.infra import metrics
 from vishield.ml.classifier import PhishingClassifier, load_or_none
 from vishield.ml.evaluate import compute_metrics
 from vishield.stt import SpeechToText, build_stt
@@ -69,6 +70,11 @@ class AnalysisService:
         self.thresholds = RiskThresholds(
             medium=settings.risk_medium_threshold, high=settings.risk_high_threshold
         )
+        metrics.set_model_state(
+            self.classifier is not None,
+            self.classifier.model_type if self.classifier else "none",
+            self.stt.name,
+        )
 
     # -- public API -------------------------------------------------------------------------
     def analyze_transcript(self, transcript: str) -> AnalysisResult:
@@ -76,6 +82,7 @@ class AnalysisService:
         result = self._analyze_text(transcript, input_kind="transcript", acoustic=None)
         result.processing_ms = int((time.perf_counter() - started) * 1000)
         self._persist(result)
+        metrics.record_analysis(result)
         return result
 
     def analyze_audio(
@@ -97,6 +104,7 @@ class AnalysisService:
         result = self._analyze_text(transcription.text, input_kind="audio", acoustic=summary)
         result.processing_ms = int((time.perf_counter() - started) * 1000)
         self._persist(result, stt_backend=transcription.backend)
+        metrics.record_analysis(result)
         return result
 
     def evaluate_batch(self, items: list[BatchItem]) -> BatchEvaluateResponse:
@@ -125,9 +133,14 @@ class AnalysisService:
                 y_true.append(item.label)
                 y_pred.append(predicted)
                 y_score.append(analysis.risk_score / 100.0)
-        metrics = compute_metrics(y_true, y_pred, y_score) if y_true else compute_metrics([], [])
-        metrics.n = len(y_true)
-        return BatchEvaluateResponse(results=results, metrics=metrics, model_version=MODEL_VERSION)
+        metrics_report = (
+            compute_metrics(y_true, y_pred, y_score) if y_true else compute_metrics([], [])
+        )
+        metrics_report.n = len(y_true)
+        metrics.record_batch(metrics_report)
+        return BatchEvaluateResponse(
+            results=results, metrics=metrics_report, model_version=MODEL_VERSION
+        )
 
     def model_info(self) -> ModelInfo:
         return ModelInfo(

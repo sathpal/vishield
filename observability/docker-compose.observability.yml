@@ -1,0 +1,18 @@
+# Ships ViShield metrics to Grafana Cloud. Run from the repo root:
+#   docker compose -f observability/docker-compose.observability.yml --env-file observability/.env up -d
+services:
+  alloy:
+    image: grafana/alloy:latest
+    container_name: vishield-alloy
+    command: ["run", "--server.http.listen-addr=0.0.0.0:12345", "--stability.level=experimental", "/etc/alloy/config.alloy"]
+    env_file: .env
+    environment:
+      VISHIELD_METRICS_TARGET: ${VISHIELD_METRICS_TARGET:-host.docker.internal:8000}
+      VISHIELD_INSTANCE_NAME: ${VISHIELD_INSTANCE_NAME:-laptop}
+      VISHIELD_ENV_NAME: ${VISHIELD_ENV_NAME:-dev}
+    volumes:
+      - ./alloy/config.alloy:/etc/alloy/config.alloy:ro
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "12345:12345"   # Alloy UI: pipeline graph and scrape health

@@ -5,7 +5,9 @@ from __future__ import annotations
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
+from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
+from starlette.middleware.base import BaseHTTPMiddleware
 
 from vishield import __version__
 from vishield.api.errors import register_exception_handlers
@@ -14,6 +16,7 @@ from vishield.config import Settings, get_settings
 from vishield.domain.safety import ETHICS_BANNER
 from vishield.infra.db import Database
 from vishield.infra.logging import configure_logging
+from vishield.infra.metrics import REGISTRY, http_metrics_middleware
 from vishield.infra.repository import AnalysisRepository
 from vishield.services.analyzer import AnalysisService
 
@@ -47,6 +50,12 @@ def create_app(settings: Settings | None = None, service: AnalysisService | None
         redoc_url="/redoc",
     )
     app.include_router(router)
+    app.add_middleware(BaseHTTPMiddleware, dispatch=http_metrics_middleware)
+
+    @app.get("/metrics", include_in_schema=False)
+    def metrics() -> Response:
+        return Response(generate_latest(REGISTRY), media_type=CONTENT_TYPE_LATEST)
+
     register_exception_handlers(app)
     return app
 
