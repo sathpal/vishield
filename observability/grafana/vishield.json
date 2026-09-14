@@ -64,7 +64,7 @@
   "panels": [
     {
       "type": "row",
-      "title": "Headline (window = $__range)",
+      "title": "Headline (selected time range)",
       "collapsed": false,
       "gridPos": {
         "x": 0,
@@ -106,6 +106,7 @@
           "color": {
             "mode": "thresholds"
           },
+          "decimals": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -129,7 +130,8 @@
         "colorMode": "value",
         "graphMode": "area",
         "textMode": "value"
-      }
+      },
+      "transformations": []
     },
     {
       "type": "stat",
@@ -197,7 +199,8 @@
         "colorMode": "value",
         "graphMode": "area",
         "textMode": "value"
-      }
+      },
+      "transformations": []
     },
     {
       "type": "stat",
@@ -263,7 +266,8 @@
         "colorMode": "value",
         "graphMode": "area",
         "textMode": "value"
-      }
+      },
+      "transformations": []
     },
     {
       "type": "stat",
@@ -297,6 +301,7 @@
           "color": {
             "mode": "thresholds"
           },
+          "decimals": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -328,7 +333,8 @@
         "colorMode": "value",
         "graphMode": "area",
         "textMode": "value"
-      }
+      },
+      "transformations": []
     },
     {
       "type": "stat",
@@ -414,7 +420,8 @@
         "colorMode": "value",
         "graphMode": "none",
         "textMode": "value"
-      }
+      },
+      "transformations": []
     },
     {
       "type": "stat",
@@ -482,7 +489,8 @@
         "colorMode": "value",
         "graphMode": "none",
         "textMode": "value"
-      }
+      },
+      "transformations": []
     },
     {
       "type": "row",
@@ -592,12 +600,13 @@
           "mode": "multi",
           "sort": "desc"
         }
-      }
+      },
+      "transformations": []
     },
     {
       "type": "bargauge",
       "title": "Risk score distribution",
-      "description": "Cumulative histogram of overall risk scores (0-100) over the range.",
+      "description": "Analyses per risk-score bucket (0-100) over the selected range.",
       "datasource": {
         "type": "prometheus",
         "uid": "grafanacloud-prom"
@@ -613,8 +622,7 @@
           "expr": "sum by (le) (increase(vishield_risk_score_bucket{job=\"vishield-api\", instance=~\"$instance\"}[$__range]))",
           "legendFormat": "\u2264 {{le}}",
           "refId": "A",
-          "instant": true,
-          "range": false,
+          "format": "heatmap",
           "datasource": {
             "type": "prometheus",
             "uid": "grafanacloud-prom"
@@ -626,6 +634,7 @@
           "color": {
             "mode": "thresholds"
           },
+          "decimals": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -657,7 +666,8 @@
           "values": false
         },
         "showUnfilled": true
-      }
+      },
+      "transformations": []
     },
     {
       "type": "piechart",
@@ -759,7 +769,8 @@
         "displayLabels": [
           "percent"
         ]
-      }
+      },
+      "transformations": []
     },
     {
       "type": "row",
@@ -789,11 +800,12 @@
       },
       "targets": [
         {
-          "expr": "sort_desc(sum by (category) (increase(vishield_indicators_total{job=\"vishield-api\", instance=~\"$instance\"}[$__range])))",
+          "expr": "sum by (category) (increase(vishield_indicators_total{job=\"vishield-api\", instance=~\"$instance\"}[$__range]))",
           "legendFormat": "{{category}}",
           "refId": "A",
           "instant": true,
           "range": false,
+          "format": "table",
           "datasource": {
             "type": "prometheus",
             "uid": "grafanacloud-prom"
@@ -805,6 +817,7 @@
           "color": {
             "mode": "thresholds"
           },
+          "decimals": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -827,7 +840,28 @@
           "showLegend": false
         },
         "xTickLabelSpacing": 0
-      }
+      },
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "field": "Value",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "type": "timeseries",
@@ -896,7 +930,8 @@
           "mode": "multi",
           "sort": "desc"
         }
-      }
+      },
+      "transformations": []
     },
     {
       "type": "row",
@@ -931,6 +966,7 @@
           "refId": "A",
           "instant": true,
           "range": false,
+          "format": "table",
           "datasource": {
             "type": "prometheus",
             "uid": "grafanacloud-prom"
@@ -942,6 +978,7 @@
           "color": {
             "mode": "thresholds"
           },
+          "decimals": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -963,7 +1000,28 @@
         "legend": {
           "showLegend": false
         }
-      }
+      },
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "field": "Value",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ]
     },
     {
       "type": "timeseries",
@@ -1015,7 +1073,8 @@
           "mode": "multi",
           "sort": "desc"
         }
-      }
+      },
+      "transformations": []
     },
     {
       "type": "bargauge",
@@ -1082,7 +1141,8 @@
           "fields": "",
           "values": false
         }
-      }
+      },
+      "transformations": []
     },
     {
       "type": "row",
@@ -1142,7 +1202,8 @@
           "mode": "multi",
           "sort": "desc"
         }
-      }
+      },
+      "transformations": []
     },
     {
       "type": "timeseries",
@@ -1240,7 +1301,8 @@
           "mode": "multi",
           "sort": "desc"
         }
-      }
+      },
+      "transformations": []
     },
     {
       "type": "timeseries",
@@ -1307,7 +1369,8 @@
           "mode": "multi",
           "sort": "desc"
         }
-      }
+      },
+      "transformations": []
     }
   ]
 }

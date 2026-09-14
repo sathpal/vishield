@@ -43,11 +43,15 @@ def _ds(uid: str) -> dict[str, str]:
     return {"type": "prometheus", "uid": uid}
 
 
-def _target(expr: str, legend: str = "", ref: str = "A", instant: bool = False) -> dict[str, Any]:
+def _target(
+    expr: str, legend: str = "", ref: str = "A", instant: bool = False, fmt: str | None = None
+) -> dict[str, Any]:
     t: dict[str, Any] = {"expr": expr, "legendFormat": legend or "__auto", "refId": ref}
     if instant:
         t["instant"] = True
         t["range"] = False
+    if fmt:
+        t["format"] = fmt
     return t
 
 
@@ -65,11 +69,15 @@ def _panel(
     custom: dict[str, Any] | None = None,
     min_: float | None = None,
     max_: float | None = None,
+    decimals: int | None = None,
+    transformations: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     x, y, w, h = grid
     defaults: dict[str, Any] = {"color": {"mode": "palette-classic"}}
     if unit:
         defaults["unit"] = unit
+    if decimals is not None:
+        defaults["decimals"] = decimals
     if min_ is not None:
         defaults["min"] = min_
     if max_ is not None:
@@ -91,6 +99,7 @@ def _panel(
         "targets": [{**t, "datasource": _ds(ds)} for t in targets],
         "fieldConfig": {"defaults": defaults, "overrides": overrides or []},
         "options": options or {},
+        "transformations": transformations or [],
     }
 
 
@@ -129,7 +138,7 @@ def build(ds: str) -> dict[str, Any]:
     panels: list[dict[str, Any]] = []
 
     # ---------- Row 1: headline stats
-    panels.append(_row("Headline (window = $__range)", 0))
+    panels.append(_row("Headline (selected time range)", 0))
     panels += [
         _panel(
             "stat",
@@ -139,6 +148,7 @@ def build(ds: str) -> dict[str, Any]:
             ds,
             "Completed analyses in the selected time range.",
             thresholds=[(BLUE, None)],
+            decimals=0,
             options=stat_opts,
         ),
         _panel(
@@ -182,6 +192,7 @@ def build(ds: str) -> dict[str, Any]:
             (12, 1, 4, 4),
             ds,
             "Validation rejections and failures (empty transcript, bad file, oversized...).",
+            decimals=0,
             thresholds=[(GREEN, None), (AMBER, 1), (RED, 20)],
             options=stat_opts,
         ),
@@ -253,12 +264,13 @@ def build(ds: str) -> dict[str, Any]:
                 _target(
                     f"sum by (le) (increase(vishield_risk_score_bucket{{{sel}}}[$__range]))",
                     "≤ {{le}}",
-                    instant=True,
+                    fmt="heatmap",
                 )
             ],
             (12, 6, 6, 8),
             ds,
-            "Cumulative histogram of overall risk scores (0-100) over the range.",
+            "Analyses per risk-score bucket (0-100) over the selected range.",
+            decimals=0,
             thresholds=[(GREEN, None), (AMBER, 50), (RED, 150)],
             options={
                 "orientation": "horizontal",
@@ -298,15 +310,21 @@ def build(ds: str) -> dict[str, Any]:
             "Indicator families detected",
             [
                 _target(
-                    f"sort_desc(sum by (category) (increase(vishield_indicators_total{{{sel}}}[$__range])))",
+                    f"sum by (category) (increase(vishield_indicators_total{{{sel}}}[$__range]))",
                     "{{category}}",
                     instant=True,
+                    fmt="table",
                 )
             ],
             (0, 15, 12, 8),
             ds,
             "How often each social-engineering indicator family fired (one analysis can fire several).",
             thresholds=[(PURPLE, None)],
+            decimals=0,
+            transformations=[
+                {"id": "organize", "options": {"excludeByName": {"Time": True}}},
+                {"id": "sortBy", "options": {"sort": [{"field": "Value", "desc": True}]}},
+            ],
             options={
                 "orientation": "horizontal",
                 "showValue": "auto",
@@ -357,12 +375,18 @@ def build(ds: str) -> dict[str, Any]:
                     f"sum by (kind) (increase(vishield_redactions_total{{{sel}}}[$__range]))",
                     "{{kind}}",
                     instant=True,
+                    fmt="table",
                 )
             ],
             (0, 24, 8, 8),
             ds,
             "Phone numbers, OTP-like codes, URLs, emails, account and card numbers removed from transcripts.",
             thresholds=[(BLUE, None)],
+            decimals=0,
+            transformations=[
+                {"id": "organize", "options": {"excludeByName": {"Time": True}}},
+                {"id": "sortBy", "options": {"sort": [{"field": "Value", "desc": True}]}},
+            ],
             options={
                 "orientation": "vertical",
                 "showValue": "auto",
