@@ -54,7 +54,7 @@ def gauge(result: AnalysisResult) -> go.Figure:
             },
         )
     )
-    fig.update_layout(height=260, margin={"l": 20, "r": 20, "t": 50, "b": 10})
+    fig.update_layout(height=280, margin={"l": 30, "r": 30, "t": 60, "b": 20})
     return fig
 
 
@@ -99,7 +99,7 @@ def render_result(result: AnalysisResult) -> None:
             st.progress(ind.severity, text=f"severity {ind.severity:.2f} · {ind.hits} hit(s)")
             st.caption(ind.description)
             for e in ind.evidence[:3]:
-                st.code(e.text, language=None)
+                st.markdown(f"› `{e.text}`")
 
     st.subheader("Evidence and explanation")
     st.write(result.explanation)
@@ -278,7 +278,9 @@ def page_batch() -> None:
                     showscale=False,
                 )
             )
-            fig.update_layout(title=f"Confusion matrix (n={m.n})", height=320)
+            fig.update_layout(
+                title=f"Confusion matrix (n={m.n})", height=320, yaxis={"autorange": "reversed"}
+            )
             st.plotly_chart(fig, use_container_width=False)
             st.caption(
                 "Numbers come from a tiny fictional dataset and do not indicate real-world performance."

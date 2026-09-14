@@ -20,6 +20,7 @@ def test_rule_count_matches_definition() -> None:
         ("Your account will be blocked today", IndicatorCategory.FEAR_THREAT),
         ("Your PC is hacked and has malware", IndicatorCategory.FEAR_THREAT),
         ("Please share the OTP you received", IndicatorCategory.CREDENTIAL_REQUEST),
+        ("Please confirm the OTP you just received", IndicatorCategory.CREDENTIAL_REQUEST),
         ("Transfer the money to the safe account", IndicatorCategory.PAYMENT_REQUEST),
         ("Do not tell anyone about this call", IndicatorCategory.SECRECY),
         ("Click the link we sent by SMS", IndicatorCategory.SUSPICIOUS_CONTACT),

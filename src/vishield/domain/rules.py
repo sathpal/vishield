@@ -118,6 +118,7 @@ RULES: tuple[Rule, ...] = (
             r"\b(?:share|tell|read|give|provide|confirm|send|enter|type)\s+(?:me\s+|us\s+)?(?:the\s+|your\s+)?(?:\w+\s+){0,2}(otp|one[- ]time password|verification code|passcode|pin|cvv|password|security code|mpin|upi pin|atm pin|card number|expiry date|net ?banking (?:id|password))\b",
             r"\b(otp|one[- ]time password|verification code|pin|cvv|password|mpin)\s+(?:that|which)\s+(?:you|we)\s+(?:will\s+)?(?:receive|received|get|got|sent)\b",
             r"\b(what is|what'?s)\s+(?:the|your)\s+(otp|code|pin|cvv|password|mpin)\b",
+            r"\b(otp|code|pin|password)\s+(?:that\s+)?(?:you|we)\s+(?:just\s+|have\s+|will\s+)?(?:received|receive|got|get|sent|send)\b",
             r"\b(aadhaar|aadhar|pan)\s+(?:card\s+)?(?:number|details)\b",
             r"\b(date of birth|mother'?s maiden name)\b",
         ),
