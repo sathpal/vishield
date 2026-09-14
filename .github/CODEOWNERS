@@ -1,0 +1,20 @@
+# Replace the placeholders with real GitHub handles. Owners are auto-requested on PRs.
+# Student 1 - audio pipeline & speech-to-text
+/src/vishield/audio/        @student1-handle
+/src/vishield/stt/          @student1-handle
+# Student 2 - dataset, NLP model & evaluation
+/data/                      @student2-handle
+/src/vishield/ml/           @student2-handle
+/scripts/                   @student2-handle
+# Student 3 - backend, database & risk engine
+/src/vishield/api/          @student3-handle
+/src/vishield/infra/        @student3-handle
+/src/vishield/domain/       @student3-handle
+/src/vishield/services/     @student3-handle
+# Student 4 - dashboard, documentation & demo
+/src/vishield/dashboard/    @student4-handle
+/docs/                      @student4-handle
+/README.md                  @student4-handle
+# Shared
+/tests/                     @student1-handle @student2-handle @student3-handle @student4-handle
+/.github/                   @student3-handle @student4-handle

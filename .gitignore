@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Environment / secrets
+.env
+*.pem
+*.key
+
+# Trained model binaries (never commit)
+models/*.joblib
+models/*.pkl
+models/*.pt
+models/*.bin
+models/*.onnx
+!models/.gitkeep
+
+# Databases and runtime data
+*.db
+*.sqlite
+*.sqlite3
+data/dev_audio/
+data/uploads/
+
+# Private or raw audio (never commit)
+*.wav
+*.mp3
+*.m4a
+*.flac
+!tests/fixtures/*.wav
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store

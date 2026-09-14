@@ -1,0 +1,30 @@
+services:
+  api:
+    build: .
+    image: vishield:local
+    container_name: vishield-api
+    env_file: [.env.example]
+    environment:
+      VISHIELD_STT_BACKEND: mock
+      VISHIELD_DATABASE_URL: sqlite:////data/vishield.db
+    volumes:
+      - vishield-data:/data
+    ports:
+      - "8000:8000"
+
+  dashboard:
+    image: vishield:local
+    container_name: vishield-dashboard
+    depends_on: [api]
+    env_file: [.env.example]
+    environment:
+      VISHIELD_API_BASE_URL: http://api:8000
+      VISHIELD_DATABASE_URL: sqlite:////data/vishield-ui.db
+    command: ["streamlit", "run", "src/vishield/dashboard/app.py", "--server.port=8501", "--server.address=0.0.0.0", "--server.headless=true"]
+    volumes:
+      - vishield-data:/data
+    ports:
+      - "8501:8501"
+
+volumes:
+  vishield-data:

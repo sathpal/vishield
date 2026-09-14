@@ -1,0 +1,16 @@
+.venv
+.git
+.github
+.mypy_cache
+.ruff_cache
+.pytest_cache
+htmlcov
+coverage.xml
+*.db
+models/*.joblib
+data/dev_audio
+data/splits
+reports
+docs
+tests
+.env
