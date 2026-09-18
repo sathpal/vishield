@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 820" width="1000" height="820" role="img" aria-label="What one request goes through: audio is validated, normalised and transcribed, raw samples are dropped, text is redacted, three detectors score it, weighted fusion produces a 0 to 100 risk, and only anonymised metadata is stored." font-family="'IBM Plex Sans', 'Segoe UI', Helvetica, Arial, sans-serif" style="color:#1c2430">
+<rect width="100%" height="100%" fill="#fbfbf9"/>
+<defs>
+  <marker id="arw2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker>
+</defs>
+<g font-size="11" letter-spacing="1.5" fill="currentColor" fill-opacity="0.55" font-weight="600">
+  <text x="980" y="26" text-anchor="end">1 · INPUT</text>
+  <text x="980" y="126" text-anchor="end">2 · AUDIO PIPELINE</text>
+  <text x="980" y="286" text-anchor="end">3 · PRIVACY BOUNDARY</text>
+  <text x="980" y="370" text-anchor="end">4 · THREE DETECTORS</text>
+  <text x="980" y="526" text-anchor="end">5 · FUSION</text>
+  <text x="980" y="630" text-anchor="end">6 · OUTPUT</text>
+</g>
+<g fill="currentColor" fill-opacity="0.045" stroke="currentColor" stroke-width="1.2">
+  <rect x="40" y="20" width="390" height="60" rx="6" stroke="#b45309" stroke-width="1.6"/>
+  <rect x="40" y="110" width="180" height="100" rx="6"/>
+  <rect x="250" y="110" width="180" height="100" rx="6"/>
+  <rect x="460" y="110" width="220" height="44" rx="6"/>
+  <rect x="460" y="166" width="220" height="44" rx="6"/>
+  <rect x="40" y="270" width="260" height="60" rx="6"/>
+  <rect x="350" y="270" width="300" height="60" rx="6" stroke="#b45309" stroke-width="1.6"/>
+  <rect x="40" y="380" width="280" height="80" rx="6"/>
+  <rect x="360" y="380" width="280" height="80" rx="6"/>
+  <rect x="680" y="380" width="280" height="80" rx="6" stroke-dasharray="5 4"/>
+  <rect x="300" y="510" width="400" height="86" rx="6" stroke="#0f766e" stroke-width="2"/>
+  <rect x="40" y="640" width="400" height="80" rx="6"/>
+  <rect x="560" y="640" width="400" height="80" rx="6" stroke="#b45309" stroke-width="1.6"/>
+  <rect x="40" y="756" width="500" height="44" rx="6"/>
+</g>
+<g fill="currentColor" font-size="13" font-weight="600">
+  <text x="56" y="42">Audio upload or browser recording</text>
+  <text x="56" y="132">Validate upload</text>
+  <text x="266" y="132">Decode &amp; normalise</text>
+  <text x="476" y="129">Acoustic features</text>
+  <text x="476" y="185">Speech-to-text</text>
+  <text x="56" y="292">Typed transcript</text>
+  <text x="366" y="292">Redact</text>
+  <text x="56" y="402">Rule engine · Baseline A</text>
+  <text x="376" y="402">TF-IDF + logistic regression · B</text>
+  <text x="696" y="402">Acoustic pressure score</text>
+  <text x="316" y="532" fill="#0f766e">Hybrid risk engine · weighted fusion</text>
+  <text x="56" y="662">Explain &amp; recommend</text>
+  <text x="576" y="662">Persist &amp; observe</text>
+  <text x="56" y="783">AnalysisResult JSON → API response, dashboard gauge and cards</text>
+</g>
+<g fill="currentColor" fill-opacity="0.85" font-size="11.5">
+  <text x="56" y="62">WAV · MP3 · M4A · consent_confirmed = true is required, otherwise rejected</text>
+  <text x="56" y="152">extension · MIME type</text>
+  <text x="56" y="168">magic bytes · size ≤ 10 MB</text>
+  <text x="56" y="192">→ stable error codes</text>
+  <text x="266" y="152">soundfile / librosa decode</text>
+  <text x="266" y="168">16 kHz mono · DC · peak</text>
+  <text x="266" y="184">trim silence · 1 – 180 s</text>
+  <text x="476" y="145">pauses · rate · pitch · spectral</text>
+  <text x="476" y="201">mock (default) or faster-whisper</text>
+  <text x="56" y="312">POST /analyze/transcript enters here</text>
+  <text x="366" y="312">[PHONE] [EMAIL] [URL] [ACCOUNT] [CARD] [CODE]</text>
+  <text x="56" y="422">8 families: urgency, authority, fear, credential,</text>
+  <text x="56" y="438">payment, secrecy, link/callback, remote access</text>
+  <text x="56" y="454">→ hits with transcript spans, rule score 0 – 1</text>
+  <text x="376" y="422">1 – 2 gram TF-IDF, class-weighted LR</text>
+  <text x="376" y="438">→ P(phishing) 0 – 1</text>
+  <text x="376" y="454">→ top n-gram contributions for the explanation</text>
+  <text x="696" y="422">from the aggregates, audio requests only</text>
+  <text x="696" y="438">synthetic-voice signal behind a flag, off</text>
+  <text x="696" y="454">→ acoustic score 0 – 1</text>
+  <text x="316" y="552">score = Σ wᵢ·sᵢ / Σ wᵢ over the parts present</text>
+  <text x="316" y="568">weights 0.4 rules · 0.5 ML · 0.1 acoustic, renormalised</text>
+  <text x="316" y="584">0 – 100 · low &lt; 35 · medium · high ≥ 65 · heuristic confidence</text>
+  <text x="56" y="682">plain-language explanation that never overclaims</text>
+  <text x="56" y="698">indicator cards with spans · influential features</text>
+  <text x="56" y="712">defensive recommendations per category</text>
+  <text x="576" y="682">SQLite row: scores, level, indicator names, timings, sha256</text>
+  <text x="576" y="698">Prometheus counters and histograms</text>
+  <text x="576" y="712">no transcript, no audio, no identifiers stored</text>
+</g>
+<g fill="none" stroke="currentColor" stroke-width="1.3" marker-end="url(#arw2)">
+  <polyline points="130,80 130,106"/>
+  <polyline points="220,160 246,160"/>
+  <polyline points="430,160 445,160 445,132 456,132"/>
+  <polyline points="445,160 445,188 456,188"/>
+  <polyline points="570,210 570,245 500,245 500,266"/>
+  <polyline points="680,132 700,132 700,350 820,350 820,376"/>
+  <polyline points="300,300 346,300"/>
+  <polyline points="500,330 500,355 180,355 180,376"/>
+  <polyline points="500,355 500,376"/>
+  <polyline points="180,460 180,485 400,485 400,506"/>
+  <polyline points="500,460 500,506"/>
+  <polyline points="820,460 820,485 600,485 600,506"/>
+  <polyline points="400,596 400,618 240,618 240,636"/>
+  <polyline points="600,596 600,618 760,618 760,636"/>
+  <polyline points="240,720 240,752"/>
+</g>
+<g fill="currentColor" fill-opacity="0.75" font-size="10.5">
+  <text x="138" y="98">bytes, capped</text>
+  <text x="578" y="232">text only · raw samples discarded</text>
+  <text x="706" y="300">aggregates</text>
+  <text x="506" y="350">redacted text</text>
+  <text x="188" y="480">rule score</text>
+  <text x="506" y="480">P(phishing)</text>
+  <text x="612" y="480">acoustic score, if audio</text>
+  <text x="248" y="632">score, level, components</text>
+  <text x="768" y="632">metadata only</text>
+</g>
+</svg>

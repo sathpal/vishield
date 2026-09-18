@@ -1,5 +1,19 @@
 # Architecture
 
+## Diagrams
+
+| Figure | File |
+|---|---|
+| Layered architecture: layers, who calls whom, what sits outside the process | [diagrams/architecture.svg](diagrams/architecture.svg) |
+| Request workflow: one analysis from input to explained score, with the privacy boundaries | [diagrams/request-workflow.svg](diagrams/request-workflow.svg) |
+| Data, training, evaluation and CI pipeline | [diagrams/data-and-ci-pipeline.svg](diagrams/data-and-ci-pipeline.svg) |
+
+![Layered architecture](diagrams/architecture.svg)
+
+![Request workflow](diagrams/request-workflow.svg)
+
+![Data and CI pipeline](diagrams/data-and-ci-pipeline.svg)
+
 ## Layered design
 
 ```

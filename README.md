@@ -20,6 +20,15 @@ scikit-learn · librosa · SQLite · Docker · GitHub Actions.
 3. [.github/ISSUE_PLAN.md](.github/ISSUE_PLAN.md) — the 43-issue backlog to create on GitHub.
 4. [docs/ETHICS_AND_SAFETY.md](docs/ETHICS_AND_SAFETY.md) — read and agree before writing code.
 
+## Architecture at a glance
+
+![Layered architecture](docs/diagrams/architecture.svg)
+
+![Request workflow](docs/diagrams/request-workflow.svg)
+
+Full-size diagrams and the data-to-metrics pipeline: [docs/diagrams/](docs/diagrams/) and
+[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
 ## What it does
 
 1. Accepts a WAV/MP3/M4A upload, a consent-gated browser recording, or a typed transcript.

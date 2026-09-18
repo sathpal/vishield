@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 690" width="1200" height="690" role="img" aria-label="Layered architecture of ViShield: two front ends call one AnalysisService, which uses four adapter packages and a pure-Python domain layer; only SQLite and optional Grafana Cloud sit outside the process." font-family="'IBM Plex Sans', 'Segoe UI', Helvetica, Arial, sans-serif" style="color:#1c2430">
+<rect width="100%" height="100%" fill="#fbfbf9"/>
+<defs>
+  <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker>
+</defs>
+<g font-size="11" letter-spacing="1.5" fill="currentColor" fill-opacity="0.55" font-weight="600">
+  <text x="1180" y="22" text-anchor="end">PRESENTATION</text>
+  <text x="1180" y="176" text-anchor="end">APPLICATION</text>
+  <text x="1180" y="306" text-anchor="end">ADAPTERS</text>
+  <text x="1180" y="478" text-anchor="end">DOMAIN · PURE PYTHON</text>
+  <text x="1180" y="612" text-anchor="end">OUTSIDE THE PROCESS</text>
+</g>
+<g stroke="currentColor" stroke-opacity="0.18" stroke-dasharray="3 5">
+  <line x1="20" y1="150" x2="1180" y2="150"/>
+  <line x1="20" y1="282" x2="1180" y2="282"/>
+  <line x1="20" y1="452" x2="1180" y2="452"/>
+  <line x1="20" y1="588" x2="1180" y2="588"/>
+</g>
+<g fill="currentColor" fill-opacity="0.045" stroke="currentColor" stroke-width="1.2">
+  <rect x="120" y="36" width="330" height="88" rx="6"/>
+  <rect x="640" y="36" width="330" height="88" rx="6"/>
+  <rect x="400" y="190" width="400" height="62" rx="6"/>
+  <rect x="60" y="322" width="240" height="106" rx="6"/>
+  <rect x="340" y="322" width="240" height="106" rx="6"/>
+  <rect x="620" y="322" width="240" height="106" rx="6"/>
+  <rect x="900" y="322" width="240" height="106" rx="6"/>
+  <rect x="60" y="494" width="800" height="72" rx="6"/>
+  <rect x="900" y="624" width="110" height="46" rx="6" stroke-dasharray="4 3"/>
+  <rect x="1030" y="624" width="110" height="46" rx="6" stroke-dasharray="4 3"/>
+</g>
+<g fill="currentColor" font-size="13" font-weight="600">
+  <text x="136" y="58">Streamlit dashboard</text>
+  <text x="656" y="58">FastAPI REST API</text>
+  <text x="416" y="212">AnalysisService</text>
+  <text x="76" y="344">audio/</text>
+  <text x="356" y="344">stt/</text>
+  <text x="636" y="344">ml/</text>
+  <text x="916" y="344">infra/</text>
+  <text x="76" y="516">domain/</text>
+</g>
+<g fill="currentColor" fill-opacity="0.8" font-size="11" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace">
+  <text x="136" y="76">src/vishield/dashboard/app.py</text>
+  <text x="656" y="76">src/vishield/api/routes.py</text>
+  <text x="416" y="230">src/vishield/services/analyzer.py</text>
+  <text x="76" y="533">models · redaction · rules · risk_engine · recommendations · safety</text>
+</g>
+<g fill="currentColor" fill-opacity="0.85" font-size="11.5">
+  <text x="136" y="96">upload · record (consent) · typed · batch · model info</text>
+  <text x="136" y="112">ethics banner on every page</text>
+  <text x="656" y="96">/analyze/transcript · /analyze/audio · /evaluate/batch</text>
+  <text x="656" y="112">/health · /models/info · /safety/policy · /metrics</text>
+  <text x="560" y="212">— the single entry point for both UIs</text>
+  <text x="76" y="364">validate_upload: ext, MIME, magic, size</text>
+  <text x="76" y="380">load_and_normalize: 16 kHz, trim</text>
+  <text x="76" y="396">extract_features: aggregates only</text>
+  <text x="76" y="412">synthetic_voice: experimental, off</text>
+  <text x="356" y="364">SpeechToText Protocol</text>
+  <text x="356" y="380">MockSpeechToText (default)</text>
+  <text x="356" y="396">FasterWhisperSpeechToText (optional)</text>
+  <text x="356" y="412">chosen by VISHIELD_STT_BACKEND</text>
+  <text x="636" y="364">PhishingClassifier: TF-IDF + LR</text>
+  <text x="636" y="380">explain → n-gram contributions</text>
+  <text x="636" y="396">evaluate: P/R/F1/AUC/confusion</text>
+  <text x="636" y="412">transformer_stub (research, off)</text>
+  <text x="916" y="364">AnalysisRepository → SQLAlchemy</text>
+  <text x="916" y="380">redacting logging filter</text>
+  <text x="916" y="396">Prometheus metrics registry</text>
+  <text x="916" y="412">Settings: VISHIELD_* via .env</text>
+  <text x="76" y="551">imports nothing from other layers · 8 indicator families · weighted fusion, thresholds 35 / 65 · policy served by the API</text>
+  <text x="955" y="643" text-anchor="middle">SQLite</text>
+  <text x="955" y="659" text-anchor="middle" font-size="10">metadata only</text>
+  <text x="1085" y="643" text-anchor="middle">Grafana Cloud</text>
+  <text x="1085" y="659" text-anchor="middle" font-size="10">via Alloy, optional</text>
+</g>
+<g fill="none" stroke="currentColor" stroke-width="1.3" marker-end="url(#arw)">
+  <polyline points="450,80 636,80" stroke-dasharray="5 4"/>
+  <polyline points="285,124 285,160 520,160 520,186"/>
+  <polyline points="805,124 805,160 680,160 680,186"/>
+  <polyline points="460,252 460,270 180,270 180,318"/>
+  <polyline points="560,252 560,280 460,280 460,318"/>
+  <polyline points="660,252 660,280 740,280 740,318"/>
+  <polyline points="760,252 760,270 1020,270 1020,318"/>
+  <polyline points="400,221 40,221 40,530 56,530"/>
+  <polyline points="955,428 955,620"/>
+  <polyline points="1085,428 1085,620" stroke-dasharray="5 4"/>
+</g>
+<g fill="currentColor" fill-opacity="0.75" font-size="10.5">
+  <text x="543" y="70" text-anchor="middle">HTTP via dashboard/client.py</text>
+  <text x="543" y="98" text-anchor="middle" font-style="italic" font-size="10">fallback: in-process if the API is down</text>
+  <text x="290" y="150">in-process</text>
+  <text x="810" y="150">deps.py</text>
+  <text x="186" y="312">validate · decode · features</text>
+  <text x="466" y="312">transcribe</text>
+  <text x="746" y="312">predict_proba · explain</text>
+  <text x="1026" y="312">save · record</text>
+  <text x="948" y="472" text-anchor="end">anonymised row</text><text x="948" y="486" text-anchor="end">per analysis</text>
+  <text x="1092" y="500">scrape /metrics</text>
+  <text x="30" y="380" transform="rotate(-90 30 380)" text-anchor="middle">redact · rules · fuse · explain · recommend</text>
+</g>
+</svg>
