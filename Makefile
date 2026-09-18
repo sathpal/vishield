@@ -11,7 +11,8 @@ PORT_API ?= 8000
 PORT_UI ?= 8501
 
 .PHONY: help setup setup-uv install-stt demo-wav observability-up observability-down dashboard traffic run-api run-ui run test test-cov lint typecheck format \
-        check audit data train evaluate docker-build docker-up docker-down clean
+        check audit data train evaluate docker-build docker-up docker-down clean \
+        cloud-init cloud-plan cloud-apply cloud-destroy cloud-output cloud-push cloud-deploy cloud-shell
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-14s\033[0m %s\n", $$1, $$2}'
@@ -98,3 +99,36 @@ traffic: ## Replay fictional transcripts through the API for 5 minutes to popula
 clean:
 	rm -rf .pytest_cache .mypy_cache .ruff_cache htmlcov coverage.xml build dist *.egg-info
 	find . -name __pycache__ -type d -prune -exec rm -rf {} +
+
+# ---------------------------------------------------------------- AWS hosting (branch cloud/aws, see docs/AWS_DEPLOYMENT.md)
+TF := terraform -chdir=deploy/aws/terraform
+AWS_REGION ?= $(shell $(TF) output -raw region 2>/dev/null || echo ap-south-1)
+
+cloud-init: ## Terraform init for deploy/aws
+	$(TF) init
+
+cloud-plan: ## Show what terraform would create/change on AWS
+	$(TF) plan
+
+cloud-apply: ## Create or update the AWS environment (asks for confirmation)
+	$(TF) apply
+
+cloud-destroy: ## Remove the whole AWS environment (asks for confirmation)
+	$(TF) destroy
+
+cloud-output: ## Print the public URL, instance id, ECR url and deploy role ARN
+	$(TF) output
+
+cloud-push: ## Build the image locally and push it to ECR as :latest (first deploy without GitHub Actions)
+	$(eval ECR := $(shell $(TF) output -raw ecr_repository_url))
+	aws ecr get-login-password --region $(AWS_REGION) | docker login --username AWS --password-stdin $(firstword $(subst /, ,$(ECR)))
+	docker build -t $(ECR):latest .
+	docker push $(ECR):latest
+
+cloud-deploy: ## Tell the instance to pull :latest (or TAG=<sha>) and restart, through SSM
+	$(eval INSTANCE := $(shell $(TF) output -raw instance_id))
+	aws ssm send-command --region $(AWS_REGION) --instance-ids $(INSTANCE) --document-name AWS-RunShellScript \
+	  --parameters 'commands=["/opt/vishield/deploy.sh $(or $(TAG),latest)"]' --query Command.CommandId --output text
+
+cloud-shell: ## Open a shell on the instance through Session Manager (no SSH)
+	aws ssm start-session --region $(AWS_REGION) --target $(shell $(TF) output -raw instance_id)

@@ -48,3 +48,11 @@ data/uploads/
 
 # Observability credentials
 observability/.env
+
+# Terraform (deploy/aws)
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+crash.log

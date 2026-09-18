@@ -1,0 +1,7 @@
+# Copy to terraform.tfvars (git-ignored) and edit.
+region        = "ap-south-1"
+instance_type = "t3.small"
+domain        = ""                 # e.g. "vishield.example.edu" once DNS points at the Elastic IP
+budget_email  = "you@example.edu"  # receives the alarm at 80 % of budget_limit_usd
+# allowed_ingress_cidrs = ["203.0.113.0/24"]   # restrict to the college network for a private review
+# create_github_oidc_provider = false           # if the account already has the GitHub OIDC provider

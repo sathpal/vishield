@@ -1,0 +1,19 @@
+# SITE_ADDRESS is ":80" (plain HTTP on the Elastic IP) or a domain name (automatic HTTPS via Let's Encrypt).
+{$SITE_ADDRESS} {
+	encode gzip
+
+	# API under /api  ->  https://host/api/health, /api/docs, /api/analyze/transcript
+	handle_path /api/* {
+		reverse_proxy api:8000
+	}
+
+	# Dashboard at /
+	handle {
+		# Optional: protect the dashboard with a username and password.
+		# Generate a hash:  docker run --rm caddy:2.8-alpine caddy hash-password --plaintext 'choose-a-password'
+		# basic_auth {
+		# 	reviewer <paste-the-hash-here>
+		# }
+		reverse_proxy dashboard:8501
+	}
+}

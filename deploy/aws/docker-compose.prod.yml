@@ -1,0 +1,72 @@
+# Production compose file used on the EC2 instance (installed to /opt/vishield by Terraform user data).
+# Images come from ECR; ECR_IMAGE, IMAGE_TAG, SITE_ADDRESS, AWS_REGION and LOG_GROUP are read from /opt/vishield/.env.
+services:
+  api:
+    image: ${ECR_IMAGE}:${IMAGE_TAG}
+    container_name: vishield-api
+    restart: unless-stopped
+    environment:
+      VISHIELD_ENV: production
+      VISHIELD_LOG_LEVEL: INFO
+      VISHIELD_STT_BACKEND: mock
+      VISHIELD_DATABASE_URL: sqlite:////data/vishield.db
+      VISHIELD_DEV_STORE_AUDIO: "false"
+    # Served under /api by the reverse proxy; --root-path keeps /api/docs and redirects correct.
+    command: ["uvicorn", "vishield.api.app:app", "--host", "0.0.0.0", "--port", "8000",
+              "--root-path", "/api", "--proxy-headers", "--forwarded-allow-ips", "*"]
+    volumes:
+      - /opt/vishield/data:/data
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: ${AWS_REGION}
+        awslogs-group: ${LOG_GROUP}
+        awslogs-stream: api
+        awslogs-create-group: "true"
+
+  dashboard:
+    image: ${ECR_IMAGE}:${IMAGE_TAG}
+    container_name: vishield-dashboard
+    restart: unless-stopped
+    depends_on: [api]
+    environment:
+      VISHIELD_ENV: production
+      VISHIELD_API_BASE_URL: http://api:8000
+      VISHIELD_DATABASE_URL: sqlite:////data/vishield-ui.db
+    command: ["streamlit", "run", "src/vishield/dashboard/app.py",
+              "--server.port=8501", "--server.address=0.0.0.0", "--server.headless=true"]
+    volumes:
+      - /opt/vishield/data:/data
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: ${AWS_REGION}
+        awslogs-group: ${LOG_GROUP}
+        awslogs-stream: dashboard
+        awslogs-create-group: "true"
+
+  caddy:
+    image: caddy:2.8-alpine
+    container_name: vishield-caddy
+    restart: unless-stopped
+    depends_on: [api, dashboard]
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS}
+    volumes:
+      - /opt/vishield/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: ${AWS_REGION}
+        awslogs-group: ${LOG_GROUP}
+        awslogs-stream: caddy
+        awslogs-create-group: "true"
+
+volumes:
+  caddy-data:
+  caddy-config:
