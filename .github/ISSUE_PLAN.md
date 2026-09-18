@@ -17,7 +17,9 @@ documentation  dependencies  good-first-issue
 ```bash
 # example
 gh label create "phase:1" --color 0e8a16
-gh milestone create "M1: Foundations" --due-date 2026-09-28   # adjust dates to your start
+gh milestone create "M1: Foundations" --due-date 2026-10-02
+gh milestone create "M2: Core pipeline" --due-date 2026-10-23
+gh milestone create "M3: Evaluation & delivery" --due-date 2026-11-13
 ```
 
 ## Milestone M1: Foundations (weeks 1–2)

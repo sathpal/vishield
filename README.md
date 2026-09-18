@@ -1,5 +1,9 @@
 # ViShield — Explainable Voice Phishing Detection and Awareness Platform
 
+[![CI](https://github.com/sathpal/vishield/actions/workflows/ci.yml/badge.svg)](https://github.com/sathpal/vishield/actions/workflows/ci.yml)
+![Python 3.11](https://img.shields.io/badge/python-3.11-blue)
+![License MIT](https://img.shields.io/badge/license-MIT-green)
+
 > **⚠️ ACADEMIC DEFENSIVE PROTOTYPE.** ViShield analyses *synthetic, public-domain or explicitly
 > consented* recordings and transcripts to teach people how voice-phishing (vishing) works.
 > It never places calls, never impersonates anyone, never clones voices, never collects
@@ -8,6 +12,13 @@
 
 A college project for four students over eight weeks. Python 3.11 · FastAPI · Streamlit ·
 scikit-learn · librosa · SQLite · Docker · GitHub Actions.
+
+**Students start here**
+
+1. [docs/SETUP_AND_EVALUATION.md](docs/SETUP_AND_EVALUATION.md) — step-by-step install, run, test and evaluate (with troubleshooting).
+2. [docs/PROJECT_PLAN.md](docs/PROJECT_PLAN.md) — phases, dated milestones, week-by-week tasks per student.
+3. [.github/ISSUE_PLAN.md](.github/ISSUE_PLAN.md) — the 43-issue backlog to create on GitHub.
+4. [docs/ETHICS_AND_SAFETY.md](docs/ETHICS_AND_SAFETY.md) — read and agree before writing code.
 
 ## What it does
 
@@ -31,7 +42,7 @@ scikit-learn · librosa · SQLite · Docker · GitHub Actions.
 ## Quick start (student laptop, no GPU, no paid services)
 
 ```bash
-git clone <your-fork-url> vishield && cd vishield
+git clone https://github.com/sathpal/vishield.git && cd vishield
 make setup            # or: make setup-uv   (creates .venv, installs [dev] extras, copies .env)
 make data             # validate the fictional dataset and create train/val/test splits
 make train            # train the TF-IDF + logistic-regression baseline (seconds)
@@ -40,6 +51,17 @@ make run              # API on http://localhost:8000/docs, dashboard on http://l
 ```
 
 Run `make check` (Ruff + mypy strict + pytest) before every pull request.
+
+## How to evaluate
+
+* **Model metrics**: `make evaluate` scores the held-out test split with rules, ML and hybrid and
+  writes `reports/metrics.json` (table below). Seeds are fixed, so a fresh clone reproduces it exactly.
+* **Batch through the API/dashboard**: `POST /evaluate/batch` or the dashboard **Batch** page.
+* **Experiments E1–E4**: commands and results in [docs/EXPERIMENTS.md](docs/EXPERIMENTS.md).
+* **Manual dashboard checks M1–M9**: [docs/TEST_PLAN.md](docs/TEST_PLAN.md).
+* **Project deliverables and grading**: [docs/PROJECT_PLAN.md](docs/PROJECT_PLAN.md).
+
+Full walkthrough: [docs/SETUP_AND_EVALUATION.md](docs/SETUP_AND_EVALUATION.md).
 
 If `python3.11` is not on your PATH, install it with `uv python install 3.11` or pyenv and run
 `make setup PY=/path/to/python3.11`.

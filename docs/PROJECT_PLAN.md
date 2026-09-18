@@ -5,6 +5,19 @@
 Deliver a runnable, tested, documented academic prototype that explains *why* a call transcript
 looks like voice phishing, using only synthetic/consented data and defensive techniques.
 
+## Calendar (cohort starting Monday 21 September 2026)
+
+| Phase | Weeks | Dates | Milestone due | Checkpoints |
+|---|---|---|---|---|
+| 1 Foundations | 1–2 | 21 Sep – 2 Oct | **M1** Fri 2 Oct | Ethics review meeting (week 1); Sprint review 1 (2 Oct) |
+| 2 Core build | 3–5 | 5 Oct – 23 Oct | **M2** Fri 23 Oct | Sprint review 2 (16 Oct); Integration day (23 Oct) |
+| 3 Harden & deliver | 6–8 | 26 Oct – 13 Nov | **M3** Fri 13 Nov | Threat-model walkthrough (week 6); Report review (week 7); Final presentation (13 Nov) |
+
+Grading: M1 20 %, M2 30 %, M3 50 %. Criteria: working system 25, engineering quality 20,
+evaluation & honesty 20, explainability & safety 15, report & documentation 10, presentation
+& viva 10 (out of 100), adjusted per student by contribution evidence (commits, issues closed,
+appendix G of the report). Shift every date by the same offset if your cohort starts later.
+
 ## Phases and milestones
 
 | Phase | Weeks | Milestone (GitHub) | Exit criteria |
