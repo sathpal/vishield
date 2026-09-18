@@ -5,7 +5,7 @@ be run locally or on a private network during the project.
 
 ## Reporting a vulnerability
 
-Do **not** open a public issue. Email the project supervisor and the student maintainers listed
+Do **not** open a public issue. Email the project supervisor and the maintainers listed
 in `.github/CODEOWNERS` with:
 
 * a description of the issue and its impact,

@@ -17,7 +17,7 @@ assignees: []
 ## Phase / owner
 
 - Phase: 1 / 2 / 3
-- Suggested owner: student1 / student2 / student3 / student4
+- Suggested owner: audio / data-ml / backend / dashboard
 
 ## Acceptance criteria
 

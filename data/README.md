@@ -39,4 +39,4 @@ and stratified splits to compensate. See `docs/DATASET_CARD.md` for the full car
 5. Run `python scripts/validate_dataset.py` – it rejects duplicates, PII-like patterns and
    schema violations.
 6. Re-run `python scripts/split_dataset.py` and `python scripts/train_model.py`.
-7. Open a pull request; a second student must review the sample for privacy.
+7. Open a pull request; a second team member must review the sample for privacy.

@@ -1,4 +1,4 @@
-# Project plan — ViShield (8 weeks, 4 students)
+# Project plan — ViShield (8 weeks, 4 area owners)
 
 ## Goal
 
@@ -13,9 +13,9 @@ looks like voice phishing, using only synthetic/consented data and defensive tec
 | 2 Core build | 3–5 | 5 Oct – 23 Oct | **M2** Fri 23 Oct | Sprint review 2 (16 Oct); Integration day (23 Oct) |
 | 3 Harden & deliver | 6–8 | 26 Oct – 13 Nov | **M3** Fri 13 Nov | Threat-model walkthrough (week 6); Report review (week 7); Final presentation (13 Nov) |
 
-Grading: M1 20 %, M2 30 %, M3 50 %. Criteria: working system 25, engineering quality 20,
+Assessment: M1 20 %, M2 30 %, M3 50 %. Criteria: working system 25, engineering quality 20,
 evaluation & honesty 20, explainability & safety 15, report & documentation 10, presentation
-& viva 10 (out of 100), adjusted per student by contribution evidence (commits, issues closed,
+& viva 10 (out of 100), adjusted per team member by contribution evidence (commits, issues closed,
 appendix G of the report). Shift every date by the same offset if your cohort starts later.
 
 ## Phases and milestones
@@ -28,7 +28,7 @@ appendix G of the report). Shift every date by the same offset if your cohort st
 
 ## Week-by-week
 
-| Week | Student 1 (audio/STT) | Student 2 (data/NLP/eval) | Student 3 (backend/DB/risk) | Student 4 (UI/docs/demo) | All |
+| Week | Owner 1 (audio/STT) | Owner 2 (data/NLP/eval) | Owner 3 (backend/DB/risk) | Owner 4 (UI/docs/demo) | All |
 |---|---|---|---|---|---|
 | 1 | Survey STT options; audio format constraints | Draft dataset schema + 40 samples; literature list | Repo skeleton, config, CI, Makefile | README, ethics banner, SRS draft | Ethics review meeting; sign consent policy |
 | 2 | Upload validation (size/MIME/magic) | Complete 80 samples; validation + split scripts; dataset card | Rule engine + redaction + tests | Streamlit skeleton (tabs, banner); architecture doc | Sprint review 1 |

@@ -10,7 +10,7 @@ component:audio  component:stt  component:ml  component:data  component:api  com
 component:risk-engine  component:dashboard  component:ci  component:docker
 type:feature  type:bug  type:docs  type:test  type:chore
 priority:high  priority:medium  priority:low
-owner:student1  owner:student2  owner:student3  owner:student4  owner:all
+owner:owner1  owner:owner2  owner:owner3  owner:owner4  owner:all
 documentation  dependencies  good-first-issue
 ```
 
@@ -26,59 +26,59 @@ gh milestone create "M3: Evaluation & delivery" --due-date 2026-11-13
 
 | # | Title | Labels | Owner |
 |---|---|---|---|
-| 1 | Repository skeleton, pyproject, Makefile, .env.example | phase:1 component:ci type:chore priority:high | student3 |
-| 2 | CI: ruff, mypy, pytest, coverage, pip-audit, gitleaks, docker build | phase:1 component:ci priority:high | student3 |
-| 3 | Ethics & safety policy doc + in-code policy endpoint | phase:1 documentation priority:high | student4 |
-| 4 | Dataset schema + 80 fictional samples | phase:1 component:data priority:high | student2 |
-| 5 | Dataset validation script (schema, duplicates, PII, org names) | phase:1 component:data type:test | student2 |
-| 6 | Deterministic stratified split script + distribution report | phase:1 component:data | student2 |
-| 7 | Redaction module + tests | phase:1 component:risk-engine priority:high | student3 |
-| 8 | Rule-based baseline (8 families) + tests | phase:1 component:risk-engine priority:high | student3 |
-| 9 | STT survey and adapter interface design | phase:1 component:stt documentation | student1 |
-| 10 | Upload validation (extension, MIME, magic, size) | phase:1 component:audio | student1 |
-| 11 | Streamlit skeleton with banner and tabs | phase:1 component:dashboard | student4 |
-| 12 | SRS, ARCHITECTURE, PROJECT_PLAN drafts | phase:1 documentation | student4 |
+| 1 | Repository skeleton, pyproject, Makefile, .env.example | phase:1 component:ci type:chore priority:high | owner3 |
+| 2 | CI: ruff, mypy, pytest, coverage, pip-audit, gitleaks, docker build | phase:1 component:ci priority:high | owner3 |
+| 3 | Ethics & safety policy doc + in-code policy endpoint | phase:1 documentation priority:high | owner4 |
+| 4 | Dataset schema + 80 fictional samples | phase:1 component:data priority:high | owner2 |
+| 5 | Dataset validation script (schema, duplicates, PII, org names) | phase:1 component:data type:test | owner2 |
+| 6 | Deterministic stratified split script + distribution report | phase:1 component:data | owner2 |
+| 7 | Redaction module + tests | phase:1 component:risk-engine priority:high | owner3 |
+| 8 | Rule-based baseline (8 families) + tests | phase:1 component:risk-engine priority:high | owner3 |
+| 9 | STT survey and adapter interface design | phase:1 component:stt documentation | owner1 |
+| 10 | Upload validation (extension, MIME, magic, size) | phase:1 component:audio | owner1 |
+| 11 | Streamlit skeleton with banner and tabs | phase:1 component:dashboard | owner4 |
+| 12 | SRS, ARCHITECTURE, PROJECT_PLAN drafts | phase:1 documentation | owner4 |
 | 13 | Literature review: 12 sources summarised | phase:1 documentation | all |
 
 ## Milestone M2: Core pipeline (weeks 3–5)
 
 | # | Title | Labels | Owner |
 |---|---|---|---|
-| 14 | Audio decode + normalise + duration checks | phase:2 component:audio priority:high | student1 |
-| 15 | Aggregate acoustic features (pauses, rate, pitch, spectral) | phase:2 component:audio | student1 |
-| 16 | Mock STT backend + factory | phase:2 component:stt priority:high | student1 |
-| 17 | faster-whisper adapter (optional extra, lazy load) | phase:2 component:stt priority:medium | student1 |
-| 18 | TF-IDF + LR classifier with feature attributions | phase:2 component:ml priority:high | student2 |
-| 19 | Train script + model metadata + load-failure handling | phase:2 component:ml | student2 |
-| 20 | Metrics module (P/R/F1/AUC/confusion) | phase:2 component:ml | student2 |
-| 21 | Risk engine fusion + thresholds + confidence | phase:2 component:risk-engine priority:high | student3 |
-| 22 | Recommendations module | phase:2 component:risk-engine | student3 |
-| 23 | SQLAlchemy models + repository (metadata only) | phase:2 component:db | student3 |
-| 24 | Redacting logging filter | phase:2 component:db type:test | student3 |
-| 25 | FastAPI endpoints + error handling + contract tests | phase:2 component:api priority:high | student3 |
-| 26 | Dashboard result rendering (gauge, cards, spans, features) | phase:2 component:dashboard priority:high | student4 |
-| 27 | Dashboard batch evaluation page | phase:2 component:dashboard | student4 |
-| 28 | Dashboard model-info and limitations pages | phase:2 component:dashboard | student4 |
-| 29 | Fairness tests across phrasing styles | phase:2 type:test | student2 |
-| 30 | Dataset card + model card v1 | phase:2 documentation | student2 |
+| 14 | Audio decode + normalise + duration checks | phase:2 component:audio priority:high | owner1 |
+| 15 | Aggregate acoustic features (pauses, rate, pitch, spectral) | phase:2 component:audio | owner1 |
+| 16 | Mock STT backend + factory | phase:2 component:stt priority:high | owner1 |
+| 17 | faster-whisper adapter (optional extra, lazy load) | phase:2 component:stt priority:medium | owner1 |
+| 18 | TF-IDF + LR classifier with feature attributions | phase:2 component:ml priority:high | owner2 |
+| 19 | Train script + model metadata + load-failure handling | phase:2 component:ml | owner2 |
+| 20 | Metrics module (P/R/F1/AUC/confusion) | phase:2 component:ml | owner2 |
+| 21 | Risk engine fusion + thresholds + confidence | phase:2 component:risk-engine priority:high | owner3 |
+| 22 | Recommendations module | phase:2 component:risk-engine | owner3 |
+| 23 | SQLAlchemy models + repository (metadata only) | phase:2 component:db | owner3 |
+| 24 | Redacting logging filter | phase:2 component:db type:test | owner3 |
+| 25 | FastAPI endpoints + error handling + contract tests | phase:2 component:api priority:high | owner3 |
+| 26 | Dashboard result rendering (gauge, cards, spans, features) | phase:2 component:dashboard priority:high | owner4 |
+| 27 | Dashboard batch evaluation page | phase:2 component:dashboard | owner4 |
+| 28 | Dashboard model-info and limitations pages | phase:2 component:dashboard | owner4 |
+| 29 | Fairness tests across phrasing styles | phase:2 type:test | owner2 |
+| 30 | Dataset card + model card v1 | phase:2 documentation | owner2 |
 
 ## Milestone M3: Evaluation & delivery (weeks 6–8)
 
 | # | Title | Labels | Owner |
 |---|---|---|---|
-| 31 | Experimental synthetic-voice signal behind flag | phase:3 component:audio priority:low | student1 |
-| 32 | Weight sensitivity study on validation split (E2) | phase:3 component:ml | student2 |
-| 33 | Acoustic contribution study (E3) | phase:3 component:audio component:ml | student1, student2 |
-| 34 | Phrasing robustness study (E4) | phase:3 component:ml | student2 |
-| 35 | Rule improvements from error analysis (digit-code, reward lure) | phase:3 component:risk-engine | student3 |
-| 36 | Dockerfile + compose + CI image build | phase:3 component:docker priority:high | student3 |
-| 37 | Threat model + security review | phase:3 documentation priority:high | student3 |
+| 31 | Experimental synthetic-voice signal behind flag | phase:3 component:audio priority:low | owner1 |
+| 32 | Weight sensitivity study on validation split (E2) | phase:3 component:ml | owner2 |
+| 33 | Acoustic contribution study (E3) | phase:3 component:audio component:ml | owner1, owner2 |
+| 34 | Phrasing robustness study (E4) | phase:3 component:ml | owner2 |
+| 35 | Rule improvements from error analysis (digit-code, reward lure) | phase:3 component:risk-engine | owner3 |
+| 36 | Dockerfile + compose + CI image build | phase:3 component:docker priority:high | owner3 |
+| 37 | Threat model + security review | phase:3 documentation priority:high | owner3 |
 | 38 | Test plan execution + coverage ≥ 70 % | phase:3 type:test | all |
-| 39 | Demo guide + rehearsal | phase:3 documentation | student4 |
-| 40 | Final report draft (outline §1–20) | phase:3 documentation priority:high | student4 (all contribute) |
+| 39 | Demo guide + rehearsal | phase:3 documentation | owner4 |
+| 40 | Final report draft (outline §1–20) | phase:3 documentation priority:high | owner4 (all contribute) |
 | 41 | Presentation slides | phase:3 documentation | all |
 | 42 | Viva Q&A preparation | phase:3 documentation | all |
-| 43 | Release v1.0 tag + release notes | phase:3 type:chore | student3 |
+| 43 | Release v1.0 tag + release notes | phase:3 type:chore | owner3 |
 
 ## Board columns
 

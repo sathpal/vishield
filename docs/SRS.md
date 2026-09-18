@@ -14,8 +14,8 @@ Indicator – a social-engineering tactic family detected in text.
 
 ## 2. Overall description
 
-* **Users**: students, awareness trainers, evaluators (viva panel).
-* **Environment**: student laptop (8 GB RAM, no GPU), Python 3.11, optional Docker.
+* **Users**: learners, awareness trainers, evaluators.
+* **Environment**: laptop (8 GB RAM, no GPU), Python 3.11, optional Docker.
 * **Constraints**: no paid services; no PII persistence; local execution.
 * **Assumptions**: inputs are English (v0.1); users have confirmed consent.
 

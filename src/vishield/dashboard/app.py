@@ -362,7 +362,7 @@ def main() -> None:
     )
     st.sidebar.markdown("---")
     st.sidebar.markdown(
-        "**Academic project** · four students · eight weeks\n\n"
+        "**Academic, defensive prototype**\n\n"
         "No calls are placed. No audio is stored. No phishing content is generated."
     )
     {

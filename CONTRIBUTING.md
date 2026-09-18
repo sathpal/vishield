@@ -23,7 +23,7 @@ Thank you for helping build a *defensive* awareness tool. Please read `SECURITY.
 4. `make check` – Ruff, mypy strict and pytest must pass. `make format` fixes style.
 5. Commit with a clear message: `feat(audio): add pause detection (#23)`.
 6. Open a PR against `develop` using the template. Link the issue. Request a review from the
-   CODEOWNER of the touched directory **and** one other student.
+   CODEOWNER of the touched directory **and** one other team member.
 7. Address review comments; squash-merge when approved and CI is green.
 
 ## Rules that are never relaxed
@@ -32,7 +32,7 @@ Thank you for helping build a *defensive* awareness tool. Please read `SECURITY.
 * No real person, organisation, phone number, email address or working URL in code, data, tests
   or docs. Use `Example Bank`, `Sample Delivery`, `[PHONE]`, `example.invalid`.
 * New dataset samples must pass `python scripts/validate_dataset.py` and be reviewed by a
-  second student for privacy.
+  second team member for privacy.
 * Speech-to-text stays mocked in tests. Never add a test that downloads a model.
 * Every new indicator rule needs at least one positive and one negative test.
 * No offensive features: no dialer, no script generator, no voice synthesis, no credential form.
@@ -47,4 +47,4 @@ Thank you for helping build a *defensive* awareness tool. Please read `SECURITY.
 
 ## Definition of done
 
-Code + tests + docs updated + CI green + reviewed by two students + issue closed.
+Code + tests + docs updated + CI green + reviewed by two team members + issue closed.

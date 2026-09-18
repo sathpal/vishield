@@ -4,7 +4,7 @@
 (B) scikit-learn TF-IDF(1–2 gram, sublinear tf, ≤ 20 k features) + LogisticRegression
 (C = 2, class_weight = balanced, seed 42), 1 760 features on v1 data; (H) weighted fusion
 0.4 rules / 0.5 ML / 0.1 acoustic (renormalised over available components). Trained in
-seconds on CPU. Owner: Student 2 (ML), Student 3 (fusion).
+seconds on CPU. Owners: ML area owner (model), backend area owner (fusion).
 
 **Intended use.** Educational demonstration of explainable vishing indicators on consented or
 synthetic inputs. Output is an aid for human review.
@@ -33,7 +33,7 @@ accuracy points. These numbers do not indicate real-world performance.**
 
 **Explainability.** Rule spans with character offsets; per-prediction tf-idf × coefficient
 contributions (top 8); fusion weights returned with every result. Global top features on v1
-include function words ("and", "now", "sir") — evidence of dataset smallness that students
+include function words ("and", "now", "sir") — evidence of dataset smallness that the team
 should discuss, not hide.
 
 **Ethical considerations.** See ETHICS_AND_SAFETY. Language in outputs is deliberately hedged.

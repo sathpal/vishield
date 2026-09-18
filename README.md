@@ -10,13 +10,13 @@
 > credentials and never generates phishing content. Outputs are **potential indicators that
 > require human review**, not proof that a caller is malicious or that audio is AI-generated.
 
-A college project for four students over eight weeks. Python 3.11 · FastAPI · Streamlit ·
-scikit-learn · librosa · SQLite · Docker · GitHub Actions.
+Python 3.11 · FastAPI · Streamlit · scikit-learn · librosa · SQLite · Docker · GitHub Actions.
+Built as an academic project by a small team.
 
-**Students start here**
+**New to the project? Start here**
 
 1. [docs/SETUP_AND_EVALUATION.md](docs/SETUP_AND_EVALUATION.md) — step-by-step install, run, test and evaluate (with troubleshooting).
-2. [docs/PROJECT_PLAN.md](docs/PROJECT_PLAN.md) — phases, dated milestones, week-by-week tasks per student.
+2. [docs/PROJECT_PLAN.md](docs/PROJECT_PLAN.md) — phases, dated milestones, week-by-week tasks per area owner.
 3. [.github/ISSUE_PLAN.md](.github/ISSUE_PLAN.md) — the 43-issue backlog to create on GitHub.
 4. [docs/ETHICS_AND_SAFETY.md](docs/ETHICS_AND_SAFETY.md) — read and agree before writing code.
 
@@ -48,7 +48,7 @@ Full-size diagrams and the data-to-metrics pipeline: [docs/diagrams/](docs/diagr
    recommendations.
 7. Persists only anonymised metadata (scores, indicator names, timings, model version) to SQLite.
 
-## Quick start (student laptop, no GPU, no paid services)
+## Quick start (any laptop, no GPU, no paid services)
 
 ```bash
 git clone https://github.com/sathpal/vishield.git && cd vishield
@@ -68,7 +68,7 @@ Run `make check` (Ruff + mypy strict + pytest) before every pull request.
 * **Batch through the API/dashboard**: `POST /evaluate/batch` or the dashboard **Batch** page.
 * **Experiments E1–E4**: commands and results in [docs/EXPERIMENTS.md](docs/EXPERIMENTS.md).
 * **Manual dashboard checks M1–M9**: [docs/TEST_PLAN.md](docs/TEST_PLAN.md).
-* **Project deliverables and grading**: [docs/PROJECT_PLAN.md](docs/PROJECT_PLAN.md).
+* **Project deliverables and assessment**: [docs/PROJECT_PLAN.md](docs/PROJECT_PLAN.md).
 
 Full walkthrough: [docs/SETUP_AND_EVALUATION.md](docs/SETUP_AND_EVALUATION.md).
 
@@ -163,7 +163,7 @@ file/duration limits, STT backend, fusion weights, thresholds, database URL, mod
 
 ## Team
 
-| Student | Ownership |
+| Area owner | Ownership |
 |---|---|
 | 1 | audio pipeline & speech-to-text |
 | 2 | dataset, NLP model & evaluation |

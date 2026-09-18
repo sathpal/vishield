@@ -56,7 +56,7 @@ STRIDE table in `docs/THREAT_MODEL.md`: malicious files, path traversal, pickle 
 logs, DoS via large files or regex, container privileges, supply chain.
 
 **Q14. How does the team split work and ensure everyone codes?**
-RACI in `docs/PROJECT_PLAN.md`; every student owns a layer, everyone writes tests and reviews
+RACI in `docs/PROJECT_PLAN.md`; every team member owns a layer, everyone writes tests and reviews
 PRs (CODEOWNERS requires it).
 
 **Q15. What would you do with two more months?**

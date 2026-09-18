@@ -13,7 +13,7 @@ ETHICS_BANNER = (
 
 POLICY = SafetyPolicy(
     purpose=(
-        "Help students and the public recognise voice-phishing (vishing) tactics through "
+        "Help people recognise voice-phishing (vishing) tactics through "
         "explainable, defensive analysis of consented or synthetic audio and transcripts."
     ),
     permitted_uses=[

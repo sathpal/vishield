@@ -1,6 +1,6 @@
 # Setup and evaluation guide
 
-Step-by-step instructions to get ViShield running on a student laptop and to evaluate it, both
+Step-by-step instructions to get ViShield running on a laptop and to evaluate it, both
 as a machine-learning system (metrics) and as a project deliverable (what reviewers check).
 Every command below is run from the repository root.
 

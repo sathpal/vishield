@@ -41,7 +41,7 @@ runnable increment, tests and a measured result.
 
 ## Explainability evaluation (RQ3)
 
-Small-scale, within-team review: 10 transcripts, each student rates the clarity of rule-span
+Small-scale, within-team review: 10 transcripts, each team member rates the clarity of rule-span
 explanation vs feature-attribution explanation on a 1–5 scale; report medians and comments.
 No external participants (avoids ethics approval overhead for a course project).
 

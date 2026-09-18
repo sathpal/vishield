@@ -9,7 +9,7 @@ description = "ViShield - Explainable Voice Phishing Detection and Awareness Pla
 readme = "README.md"
 requires-python = ">=3.11,<3.13"
 license = { text = "MIT" }
-authors = [{ name = "ViShield Student Team" }]
+authors = [{ name = "ViShield Team" }]
 keywords = ["vishing", "phishing", "security-awareness", "explainable-ml", "academic"]
 classifiers = [
   "Development Status :: 3 - Alpha",

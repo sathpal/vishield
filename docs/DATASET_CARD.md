@@ -7,7 +7,7 @@ tested and demonstrated without touching real calls.
 legitimate (24). Mean length ≈ 40 words. Fields per `data/schema.json`: id, text, label,
 category, language, source, license, consent, notes.
 
-**Collection process.** Written by the student team from public consumer-protection
+**Collection process.** Written by the project team from public consumer-protection
 descriptions of common scam patterns (bank verification, KYC, OTP, tech support, delivery,
 authority threats, urgent payments) and everyday legitimate calls. No recordings, no real
 calls, no scraping.
@@ -30,8 +30,8 @@ languages other than English; non-Indian-English phrasing conventions.
 
 **Distribution.** CC0-1.0 for the text. Repository is MIT.
 
-**Maintenance.** Student 2 owns the dataset. Additions follow `data/README.md` ("Adding
-consented samples") and require a privacy review by a second student.
+**Maintenance.** The data/NLP area owner maintains the dataset. Additions follow `data/README.md` ("Adding
+consented samples") and require a privacy review by a second team member.
 
 **Known limitations and biases.**
 * Authors wrote both classes → stylistic leakage (e.g. "sir/madam" frequent in scams).

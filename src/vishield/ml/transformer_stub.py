@@ -3,7 +3,7 @@
 Enabling requires ``pip install -e '.[research]'`` and setting
 ``VISHIELD_ENABLE_TRANSFORMER_CLASSIFIER=true``.
 The class only imports heavy libraries when instantiated, so CI and laptops never pay for it.
-No pretrained weights are bundled; students must fine-tune on consented/synthetic data and
+No pretrained weights are bundled; you must fine-tune on consented/synthetic data and
 document results honestly in docs/EXPERIMENTS.md.
 """
 
