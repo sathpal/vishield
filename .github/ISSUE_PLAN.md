@@ -5,9 +5,9 @@ Create these with the GitHub UI or `gh`. Labels first, then milestones, then iss
 ## Labels
 
 ```
-phase:1  phase:2  phase:3
+phase:1  phase:2  phase:3  phase:4
 component:audio  component:stt  component:ml  component:data  component:api  component:db
-component:risk-engine  component:dashboard  component:ci  component:docker
+component:risk-engine  component:dashboard  component:ci  component:docker  component:cloud
 type:feature  type:bug  type:docs  type:test  type:chore
 priority:high  priority:medium  priority:low
 owner:owner1  owner:owner2  owner:owner3  owner:owner4  owner:all
@@ -20,6 +20,7 @@ gh label create "phase:1" --color 0e8a16
 gh milestone create "M1: Foundations" --due-date 2026-10-02
 gh milestone create "M2: Core pipeline" --due-date 2026-10-23
 gh milestone create "M3: Evaluation & delivery" --due-date 2026-11-13
+gh milestone create "M4: Cloud hosting" --due-date 2026-11-27
 ```
 
 ## Milestone M1: Foundations (weeks 1–2)
@@ -83,3 +84,17 @@ gh milestone create "M3: Evaluation & delivery" --due-date 2026-11-13
 ## Board columns
 
 Backlog → Ready → In progress → In review → Done. Cards move only with a linked PR.
+
+## Milestone M4: Cloud hosting (weeks 9–10, branch `cloud/aws`)
+
+| # | Title | Labels | Owner |
+|---|---|---|---|
+| 44 | AWS account access, IAM Identity Center user, monthly budget alarm | phase:4 component:cloud priority:high | owner3 |
+| 45 | Terraform: ECR, security group, instance role, EC2 + Elastic IP, CloudWatch log group, GitHub OIDC deploy role | phase:4 component:cloud priority:high | owner3 |
+| 46 | First deployment live at the public URL; teardown and re-create tested | phase:4 component:cloud priority:high | owner3 |
+| 47 | Production settings review (env, limits, mock STT, dev audio off) and audio upload through the proxy | phase:4 component:audio component:cloud | owner1 |
+| 48 | Batch evaluation against the hosted API; metrics reproduce from the deployed image | phase:4 component:ml component:cloud | owner2 |
+| 49 | Hosting chapter of the report; demo script v2 from the public URL | phase:4 documentation | owner4 |
+| 50 | Deploy workflow green on push; rollback to a previous tag; light load check with CloudWatch timings | phase:4 component:cloud component:ci | owner3, owner1 |
+| 51 | HTTPS with domain (or documented alternative), basic auth on the dashboard, threat model updated for the hosted surface | phase:4 component:cloud documentation | owner3 |
+| 52 | Cost report from Cost Explorer; `terraform destroy` after sign-off; merge `cloud/aws` into `main` | phase:4 component:cloud type:chore | owner2, owner3 |

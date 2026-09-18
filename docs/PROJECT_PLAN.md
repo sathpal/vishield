@@ -1,14 +1,20 @@
 # Project plan and timeline — ViShield
 
-Eight weeks, three phases, four area owners. The project starts Monday 21 September 2026 and
-ends with the final presentation on Friday 13 November 2026. If a cohort starts on a different
-Monday, shift every date by the same offset; week numbers, tasks and issue numbers stay the same.
+Ten weeks, four phases, four area owners. The project starts Monday 21 September 2026 and ends
+with the final presentation, given from the AWS-hosted deployment, on Friday 27 November 2026.
+If a cohort starts on a different Monday, shift every date by the same offset; week numbers,
+tasks and issue numbers stay the same.
+
+The local setup (`make setup … make run`) exists for development and testing. The delivered
+system runs on AWS: Phase 4 hosts it there, and the hosting scaffolding (Terraform, deploy
+workflow, runbook) lives on the `cloud/aws` branch until it is proven and merged.
 
 Contents: [Goal and scope](#1-goal-and-scope) · [Team](#2-team-and-ownership) ·
 [Timeline](#3-timeline) · [Phase 1](#4-phase-1--foundations-weeks-12) ·
 [Phase 2](#5-phase-2--core-pipeline-weeks-35) · [Phase 3](#6-phase-3--evaluate-and-deliver-weeks-68) ·
-[Milestones and assessment](#7-milestones-and-assessment) · [Ways of working](#8-ways-of-working) ·
-[Risks](#9-risks) · [Deliverables checklist](#10-deliverables-checklist)
+[Phase 4](#7-phase-4--cloud-hosting-on-aws-weeks-910) ·
+[Milestones and assessment](#8-milestones-and-assessment) · [Ways of working](#9-ways-of-working) ·
+[Risks](#10-risks) · [Deliverables checklist](#11-deliverables-checklist)
 
 ---
 
@@ -16,8 +22,9 @@ Contents: [Goal and scope](#1-goal-and-scope) · [Team](#2-team-and-ownership) �
 
 **Goal.** Deliver a runnable, tested, documented prototype that explains *why* a call
 transcript looks like voice phishing, using only synthetic or consented data and defensive
-techniques, and answer one research question with evidence: does fusing a rule engine with a
-small explainable classifier beat either alone?
+techniques, host it on AWS with a repeatable, tear-down-able deployment, and answer one research
+question with evidence: does fusing a rule engine with a small explainable classifier beat
+either alone?
 
 **Objectives**
 
@@ -28,10 +35,13 @@ small explainable classifier beat either alone?
 | O3 | Measurable baselines and an honest comparison | Rules vs ML vs hybrid on a held-out split, error analysis, confidence intervals |
 | O4 | A usable dashboard and API | Manual test cases M1–M9 passing, API contract tests, 10-minute demo |
 | O5 | Documented ethics, threat model and limitations | Ethics document, threat model, model card, dataset card, limitations page |
+| O6 | Hosted on AWS with a repeatable deployment | Public URL serving the dashboard and API over HTTPS, infrastructure as code, one-command deploy and teardown, cost report |
 
 **In scope**: WAV/MP3/M4A upload, consent-gated browser recording, typed transcripts, mock and
 local Whisper speech-to-text, rule engine, TF-IDF + logistic regression, weighted fusion,
-recommendations, SQLite metadata, FastAPI, Streamlit, Docker, CI, Prometheus metrics.
+recommendations, SQLite metadata, FastAPI, Streamlit, Docker, CI, Prometheus metrics, and AWS
+hosting (one EC2 instance running the containers behind a reverse proxy, images in ECR,
+Terraform for the infrastructure, GitHub Actions for deployment, CloudWatch logs, a budget alarm).
 
 **Out of scope, by policy**: placing or receiving calls, impersonation, voice cloning,
 credential capture, generating phishing content, real customer data, real-time call
@@ -49,7 +59,7 @@ takes over if the owner is unavailable. Everyone writes tests, reviews and prese
 |---|---|---|---|
 | Owner 1 | Audio pipeline and speech-to-text | `src/vishield/audio/`, `src/vishield/stt/` | Owner 3 |
 | Owner 2 | Dataset, NLP model, evaluation, experiments | `data/`, `src/vishield/ml/`, `scripts/` | Owner 4 |
-| Owner 3 | Backend, database, risk engine, API, Docker, CI | `src/vishield/domain/`, `services/`, `infra/`, `api/`, `.github/` | Owner 1 |
+| Owner 3 | Backend, database, risk engine, API, Docker, CI, cloud hosting | `src/vishield/domain/`, `services/`, `infra/`, `api/`, `.github/`, `deploy/` | Owner 1 |
 | Owner 4 | Dashboard, documentation, report, demo | `src/vishield/dashboard/`, `docs/`, `README.md` | Owner 2 |
 
 Responsibility matrix (R = responsible, A = accountable, C = consulted, I = informed):
@@ -62,6 +72,7 @@ Responsibility matrix (R = responsible, A = accountable, C = consulted, I = info
 | NLP model, evaluation, experiments | I | **R/A** | C | I |
 | Rules, redaction, risk engine | C | C | **R/A** | I |
 | API, DB, logging, Docker, CI | I | I | **R/A** | C |
+| AWS hosting, deployment, cost and teardown | C | I | **R/A** | C |
 | Dashboard | I | C | C | **R/A** |
 | Documentation and report | C | C | C | **R/A** |
 | Tests, PR reviews, final presentation | R | R | R | R |
@@ -100,6 +111,13 @@ gantt
     Final report, model card, slides          :p3d, 2026-11-02, 10d
     Demo rehearsal, release v1.0              :p3e, 2026-11-09, 5d
     M3 Evaluation and delivery                :milestone, m3, 2026-11-13, 0d
+
+    section Phase 4 · Cloud hosting on AWS
+    AWS account, budget alarm, IAM, Terraform :p4a, 2026-11-16, 3d
+    First deployment live, HTTPS, logs        :p4b, 2026-11-18, 3d
+    Deploy workflow, rollback, load check     :p4c, 2026-11-23, 3d
+    Hosted demo rehearsal, cost report        :p4d, 2026-11-25, 3d
+    M4 Cloud hosting                          :milestone, m4, 2026-11-27, 0d
 ```
 
 ### Phases at a glance
@@ -109,6 +127,7 @@ gantt
 | 1 Foundations | 1–2 | 21 Sep – 2 Oct | A repository everyone can run, a validated dataset, the rule baseline, the ethics boundary agreed in writing | **M1** Fri 2 Oct |
 | 2 Core pipeline | 3–5 | 5 Oct – 23 Oct | The full path from audio or text to an explained risk score, end to end, through API and dashboard | **M2** Fri 23 Oct |
 | 3 Evaluate and deliver | 6–8 | 26 Oct – 13 Nov | Honest evaluation, hardened delivery, and a report, slides and demo that can be defended | **M3** Fri 13 Nov |
+| 4 Cloud hosting on AWS | 9–10 | 16 Nov – 27 Nov | The system live on AWS from infrastructure as code, deployable and removable in one command, demonstrated from the public URL | **M4** Fri 27 Nov |
 
 ### Calendar of checkpoints
 
@@ -122,8 +141,12 @@ gantt
 | Fri 23 Oct | Integration day and **M2** | End-to-end demo for a typed transcript and a WAV upload; contract tests passing; weights tuned on validation split | Owner 3 |
 | Thu 29 Oct | Threat-model walkthrough | `docs/THREAT_MODEL.md` checked against the running system; findings turned into issues | Owner 3 |
 | Fri 6 Nov | Report review | Full draft of the final report covering all 20 sections; model and dataset cards final | Owner 4 |
-| Wed 11 Nov | Demo dress rehearsal | 10-minute demo from a fresh clone, timed; viva question bank rehearsed | All |
-| Fri 13 Nov | Final presentation and **M3** | Experiments E1–E4 recorded, coverage ≥ 70 %, Docker build, report, slides, demo, release v1.0 | All |
+| Wed 11 Nov | Local demo rehearsal | 10-minute demo from a fresh clone, timed; viva question bank rehearsed | All |
+| Fri 13 Nov | **M3** review | Experiments E1–E4 recorded, coverage ≥ 70 %, Docker build, report draft, slides v1, release v1.0 | All |
+| Mon 16 Nov | Cloud kick-off | AWS account access for Owner 3 and backup; budget alarm set; region and cost ceiling agreed with the supervisor | Owner 3 |
+| Fri 20 Nov | First deployment live | Dashboard and API reachable at the public URL over HTTPS; logs in CloudWatch; teardown tested once | Owner 3 |
+| Wed 25 Nov | Hosted dress rehearsal | Full demo from the public URL on a laptop that has never cloned the repo; rollback demonstrated | All |
+| Fri 27 Nov | Final presentation and **M4** | Hosted demo, deployment walkthrough, cost report, final report and slides with the hosting chapter | All |
 
 Weekly rhythm: stand-up Monday 15 minutes (blockers only), review meeting Friday, pull requests
 reviewed within one working day.
@@ -200,8 +223,8 @@ and dashboard working together; contract tests green; `make evaluate` produces
 ## 6. Phase 3 — Evaluate and deliver (weeks 6–8)
 
 **Dates**: Mon 26 Oct – Fri 13 Nov. **Milestone**: `M3: Evaluation & delivery`, due Fri 13 Nov.
-**Goal**: honest evaluation, hardened delivery, and a report, slides and demo that can be
-defended in a viva.
+**Goal**: honest evaluation, hardened delivery, and a report, slides and local demo that can
+be defended; the hosted demo follows in Phase 4.
 
 ### Week 6 (26–30 Oct)
 
@@ -230,44 +253,98 @@ defended in a viva.
 | Owner 1 | Demo rehearsal; own the audio part of the demo and its fallbacks | Rehearsed | #39 |
 | Owner 2 | Demo rehearsal; own the batch evaluation and metrics part | Rehearsed | #39 |
 | Owner 3 | Tag release `v1.0` with release notes; final CI run from a fresh clone | Release published | #43 |
-| Owner 4 | Demo rehearsal; own the narrative and the limitations close; viva preparation from `docs/VIVA_QUESTIONS.md` | Final report and slides submitted | #40, #41, #42 |
-| All | Dress rehearsal Wed 11 Nov; final presentation Fri 13 Nov | M3 closed | |
+| Owner 4 | Demo rehearsal; own the narrative and the limitations close; viva preparation from `docs/VIVA_QUESTIONS.md` | Final report draft complete; slides v1 | #40, #41, #42 |
+| All | Local dress rehearsal Wed 11 Nov; M3 review Fri 13 Nov | M3 closed | |
 
 **M3 exit criteria**: explainability polish, full test plan executed, evaluation report,
-Docker build, CI green, final report, slides, 10-minute demo, release `v1.0`.
+Docker build, CI green, final report draft, slides v1, 10-minute local demo, release `v1.0`.
 
-## 7. Milestones and assessment
+## 7. Phase 4 — Cloud hosting on AWS (weeks 9–10)
+
+**Dates**: Mon 16 Nov – Fri 27 Nov. **Milestone**: `M4: Cloud hosting`, due Fri 27 Nov.
+**Goal**: the system live on AWS from infrastructure as code, deployable and removable in one
+command, and demonstrated from the public URL. Work happens on the `cloud/aws` branch and is
+merged into `main` when M4 closes.
+
+**Target architecture** (kept deliberately small for cost and for a two-week window):
+
+| Component | Choice | Why |
+|---|---|---|
+| Compute | One EC2 instance (t3.small, Amazon Linux 2023) running Docker Compose | Cheapest way to run API, dashboard and proxy together; Streamlit websockets just work; SQLite persists on the instance disk |
+| Images | ECR repository, images built by GitHub Actions and tagged with the commit SHA | Same image as local Docker; rollback is a tag change |
+| Ingress | Caddy reverse proxy on ports 80/443; dashboard at `/`, API at `/api/` | Automatic HTTPS when a domain is set; optional basic auth for the dashboard |
+| Deployment | GitHub Actions assumes an IAM role through OIDC, pushes the image, runs the deploy script on the instance through SSM | No long-lived AWS keys in GitHub; no SSH port open |
+| Infrastructure | Terraform in `deploy/aws/terraform` | One `apply` to create, one `destroy` to remove everything |
+| Operations | CloudWatch log group, instance access through SSM Session Manager, monthly budget alarm | Logs without SSH; cost ceiling agreed in advance |
+
+Estimated running cost is about US$20 per month in ap-south-1 (Mumbai), dominated by the
+instance; the environment is destroyed after the presentation.
+
+### Week 9 (16–20 Nov)
+
+| Owner | Tasks | Deliverable | Issues |
+|---|---|---|---|
+| Owner 3 | AWS account access, IAM Identity Center user, budget alarm; `terraform apply` of ECR, security group, instance role, EC2, Elastic IP, log group, GitHub OIDC role; first image pushed and running | Public URL serving `/api/health` and the dashboard | #44, #45, #46 |
+| Owner 1 | Production settings review: `VISHIELD_ENV=production`, dev audio storage ignored, upload limits, mock STT in the cloud; test an audio upload through the proxy | Checklist in `docs/AWS_DEPLOYMENT.md` ticked | #47 |
+| Owner 2 | Batch evaluation against the hosted API; confirm `reports/metrics.json` reproduces from the deployed image | Hosted evaluation run recorded in `docs/EXPERIMENTS.md` | #48 |
+| Owner 4 | Hosting chapter of the report: architecture diagram, deployment steps, security and cost; demo script v2 from the public URL | Report chapter draft; `docs/DEMO_GUIDE.md` v2 | #49 |
+| All | First deployment live Fri 20 Nov; teardown and re-create tested once | | #46 |
+
+### Week 10 (23–27 Nov)
+
+| Owner | Tasks | Deliverable | Issues |
+|---|---|---|---|
+| Owner 3 | Deploy workflow green on push; rollback to a previous tag demonstrated; HTTPS with a domain if available, otherwise documented; basic auth on the dashboard; threat model updated for the hosted surface | `.github/workflows/deploy-aws.yml` green; `docs/THREAT_MODEL.md` hosted section | #50, #51 |
+| Owner 1 | Light load check (50 sequential transcript requests, 5 audio uploads) with timings from CloudWatch | Timing table in the report | #50 |
+| Owner 2 | Cost report from AWS Cost Explorer for the two weeks; projection per month | Cost table in the report | #52 |
+| Owner 4 | Final report and slides with the hosting chapter; hosted dress rehearsal Wed 25 Nov | Final report and slides submitted | #40, #41 |
+| All | Final presentation Fri 27 Nov from the public URL; `terraform destroy` after sign-off | M4 closed; account back to zero running cost | #52 |
+
+**M4 exit criteria**: public HTTPS URL serving dashboard and API, Terraform creates and destroys
+the whole environment, deploy workflow and rollback proven, logs in CloudWatch, cost report,
+hosting chapter in the report, `cloud/aws` merged into `main`.
+
+## 8. Milestones and assessment
 
 | Milestone | Due | What is assessed, from the repository as it stands on the day | Weight |
 |---|---|---|---|
-| M1 Foundations | Fri 2 Oct 2026 | CI green, dataset validated, rule baseline with tests, ethics document, SRS and architecture drafts | 20 % |
-| M2 Core pipeline | Fri 23 Oct 2026 | End-to-end demo (transcript and audio), API contract tests, classifier trained, dashboard renders explanations | 30 % |
-| M3 Evaluation and delivery | Fri 13 Nov 2026 | Experiments E1–E4 recorded, coverage ≥ 70 %, Docker build, final report, slides, 10-minute demo, viva | 50 % |
+| M1 Foundations | Fri 2 Oct 2026 | CI green, dataset validated, rule baseline with tests, ethics document, SRS and architecture drafts | 15 % |
+| M2 Core pipeline | Fri 23 Oct 2026 | End-to-end demo (transcript and audio), API contract tests, classifier trained, dashboard renders explanations | 25 % |
+| M3 Evaluation and delivery | Fri 13 Nov 2026 | Experiments E1–E4 recorded, coverage ≥ 70 %, Docker build, final report draft, slides v1, 10-minute local demo | 35 % |
+| M4 Cloud hosting | Fri 27 Nov 2026 | Live AWS deployment from infrastructure as code, deploy and rollback proven, cost report, hosted demo, final report, viva | 25 % |
 
 Criteria out of 100:
 
 | Criterion | Marks | Evidence |
 |---|---|---|
-| Working system | 25 | The demo runs from a fresh clone using the README commands; API and dashboard behave as documented |
-| Engineering quality | 20 | Tests, type checks and lint pass in CI; layered design respected; pull requests reviewed |
+| Working system | 20 | The demo runs from a fresh clone using the README commands; API and dashboard behave as documented |
+| Engineering quality | 15 | Tests, type checks and lint pass in CI; layered design respected; pull requests reviewed |
 | Evaluation and honesty | 20 | Metrics reproducible with `make evaluate`; error analysis; confidence intervals; no tuning on the test split |
 | Explainability and safety | 15 | Indicator spans and feature attributions correct; redaction, consent gating and no-storage policy hold |
-| Report and documentation | 10 | Final report follows the 20-section outline; model card, dataset card and threat model complete |
+| Cloud hosting and operations | 10 | Live URL, infrastructure as code, deploy and rollback proven, logs, cost report, teardown |
+| Report and documentation | 10 | Final report follows the outline plus the hosting chapter; model card, dataset card and threat model complete |
 | Presentation and viva | 10 | Each owner can explain their area and answer the viva question bank |
 
 Individual marks are adjusted by contribution evidence: commit history, issues closed, review
 activity, and the contribution statement in appendix G of the report.
 
-## 8. Ways of working
+## 9. Ways of working
 
 **Definition of done for every issue**: code + tests + docs updated, `make check` green
 locally, CI green, two approving reviews (the CODEOWNER of the touched directory and one
 other team member), issue linked with `Closes #NN`, and the change demonstrable in the
 dashboard or with the API.
 
-**Branching**: `main` is always releasable. One branch per issue, named
-`<area>/<issue>-<slug>`, for example `audio/14-decode-normalise`. Squash-merge through a pull
-request using the template; no direct pushes to `main`.
+**Branching**: `main` is always releasable and always runs locally. One branch per issue,
+named `<area>/<issue>-<slug>`, for example `audio/14-decode-normalise`. Squash-merge through a
+pull request using the template; no direct pushes to `main`. The long-lived `cloud/aws` branch
+carries the hosting scaffolding (`deploy/aws/`, the deploy workflow, `docs/AWS_DEPLOYMENT.md`);
+it is rebased on `main` weekly and merged into `main` at M4.
+
+**Cloud safety**: no AWS access keys in the repository or in GitHub secrets (OIDC role only);
+`terraform.tfvars` and state stay out of git; the budget alarm is set before the first
+`apply`; the environment is destroyed after the presentation and re-created from code if
+needed again.
 
 **Reviews**: reviewed within one working day. Reviewers run the change, not just read it. The
 PR template safety checklist must be ticked: no secrets, no model binaries, no audio, no real
@@ -280,7 +357,7 @@ that produced it.
 **Meetings**: Monday stand-up (15 minutes, blockers only), Friday review, the checkpoints in
 section 3. Decisions are written into the relevant document in `docs/`, not left in chat.
 
-## 9. Risks
+## 10. Risks
 
 | Risk | Likelihood | Impact | Mitigation | Owner |
 |---|---|---|---|---|
@@ -291,8 +368,11 @@ section 3. Decisions are written into the relevant document in `docs/`, not left
 | ffmpeg missing on laptops | Medium | Low | WAV path needs no ffmpeg; Docker image bundles it | Owner 1 |
 | Windows-only laptop cannot run `make` | Medium | Low | WSL2 recommended; native PowerShell commands documented in `docs/SETUP_AND_EVALUATION.md` | Owner 3 |
 | Report left to the last week | Medium | High | Report draft due Fri 6 Nov with a review; sections mapped to existing docs in `docs/FINAL_REPORT_OUTLINE.md` | Owner 4 |
+| AWS account access arrives late | Medium | High | Request access in week 7; Terraform and the deploy workflow are written and validated on the branch before week 9 | Owner 3 |
+| Cloud cost overrun | Low | Medium | t3.small only, budget alarm at 80 % of US$20, destroy after the presentation, cost report in the deliverables | Owner 3 |
+| Public exposure of the hosted app | Medium | Medium | No real data by design, upload limits, optional basic auth on the dashboard, no SSH port, threat model updated for the hosted surface, teardown | Owner 3 |
 
-## 10. Deliverables checklist
+## 11. Deliverables checklist
 
 - [ ] Repository with green CI on `main` and release `v1.0`
 - [ ] `make setup && make data && make train && make evaluate && make run` works from a fresh clone
@@ -301,5 +381,7 @@ section 3. Decisions are written into the relevant document in `docs/`, not left
 - [ ] `docs/TEST_PLAN.md` with M1–M9 executed and dated
 - [ ] `docs/DATASET_CARD.md`, `docs/MODEL_CARD.md`, `docs/THREAT_MODEL.md`, `docs/ETHICS_AND_SAFETY.md` final
 - [ ] Final report (40–60 pages) following `docs/FINAL_REPORT_OUTLINE.md`, with appendix G contribution statements
-- [ ] Slide deck and a rehearsed 10-minute demo per `docs/DEMO_GUIDE.md`
+- [ ] Slide deck and a rehearsed 10-minute demo per `docs/DEMO_GUIDE.md`, given from the hosted URL
+- [ ] AWS deployment reproducible from `deploy/aws` (`terraform apply`, deploy workflow, `terraform destroy`) per `docs/AWS_DEPLOYMENT.md`
+- [ ] Cost report for the hosting period and the account destroyed back to zero running cost
 - [ ] Signed consent policy on file (outside the repository)

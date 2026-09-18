@@ -11,7 +11,10 @@
 > require human review**, not proof that a caller is malicious or that audio is AI-generated.
 
 Python 3.11 · FastAPI · Streamlit · scikit-learn · librosa · SQLite · Docker · GitHub Actions.
-Built as an academic project by a small team.
+Built as an academic project by a small team. The local setup below is for development and
+testing; the delivered system is hosted on AWS. The hosting scaffolding (Terraform, deploy
+workflow, runbook) lives on the `cloud/aws` branch: see
+[docs/AWS_DEPLOYMENT.md](https://github.com/sathpal/vishield/blob/cloud/aws/docs/AWS_DEPLOYMENT.md).
 
 **New to the project? Start here**
 
