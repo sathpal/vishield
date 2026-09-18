@@ -70,8 +70,10 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: pip
+      - name: Upgrade build tooling so the audit covers the project, not the runner image
+        run: pip install --upgrade pip "setuptools>=83"
       - run: pip install -e ".[dev]"
-      - run: pip-audit --desc
+      - run: pip-audit --desc --skip-editable
 
   secrets:
     name: Secret scanning (gitleaks)

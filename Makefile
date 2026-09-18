@@ -64,7 +64,8 @@ typecheck: ## mypy strict
 	$(BIN)/mypy
 
 audit: ## Dependency vulnerability audit
-	$(BIN)/pip-audit --strict --desc
+	$(BIN)/pip install --quiet --upgrade "setuptools>=83"
+	$(BIN)/pip-audit --strict --desc --skip-editable
 
 check: lint typecheck test ## Lint, typecheck and test
 
