@@ -16,10 +16,9 @@ Built as an academic project by a small team.
 **New to the project? Start here**
 
 1. [docs/SETUP_AND_EVALUATION.md](docs/SETUP_AND_EVALUATION.md) — step-by-step install, run, test and evaluate (with troubleshooting).
-2. [docs/TIMELINE.md](docs/TIMELINE.md) — the dated timeline: phases, milestones, checkpoints.
-3. [docs/PROJECT_PLAN.md](docs/PROJECT_PLAN.md) — week-by-week tasks per area owner, RACI, risks.
-4. [.github/ISSUE_PLAN.md](.github/ISSUE_PLAN.md) — the 43-issue backlog to create on GitHub.
-5. [docs/ETHICS_AND_SAFETY.md](docs/ETHICS_AND_SAFETY.md) — read and agree before writing code.
+2. [docs/PROJECT_PLAN.md](docs/PROJECT_PLAN.md) — the detailed plan and timeline: phases, Gantt, dated checkpoints, week-by-week tasks per owner, assessment, risks.
+3. [.github/ISSUE_PLAN.md](.github/ISSUE_PLAN.md) — the 43-issue backlog to create on GitHub.
+4. [docs/ETHICS_AND_SAFETY.md](docs/ETHICS_AND_SAFETY.md) — read and agree before writing code.
 
 ## Architecture at a glance
 
