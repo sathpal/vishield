@@ -1,7 +1,12 @@
 # ViShield developer commands. Requires Python 3.11 (uv or pyenv recommended).
 PY ?= python3.11
 VENV ?= .venv
+# Virtualenv binaries live in Scripts/ on native Windows (GNU make via Git Bash) and bin/ elsewhere.
+ifeq ($(OS),Windows_NT)
+BIN := $(VENV)/Scripts
+else
 BIN := $(VENV)/bin
+endif
 PORT_API ?= 8000
 PORT_UI ?= 8501
 

@@ -16,9 +16,10 @@ Built as an academic project by a small team.
 **New to the project? Start here**
 
 1. [docs/SETUP_AND_EVALUATION.md](docs/SETUP_AND_EVALUATION.md) — step-by-step install, run, test and evaluate (with troubleshooting).
-2. [docs/PROJECT_PLAN.md](docs/PROJECT_PLAN.md) — phases, dated milestones, week-by-week tasks per area owner.
-3. [.github/ISSUE_PLAN.md](.github/ISSUE_PLAN.md) — the 43-issue backlog to create on GitHub.
-4. [docs/ETHICS_AND_SAFETY.md](docs/ETHICS_AND_SAFETY.md) — read and agree before writing code.
+2. [docs/TIMELINE.md](docs/TIMELINE.md) — the dated timeline: phases, milestones, checkpoints.
+3. [docs/PROJECT_PLAN.md](docs/PROJECT_PLAN.md) — week-by-week tasks per area owner, RACI, risks.
+4. [.github/ISSUE_PLAN.md](.github/ISSUE_PLAN.md) — the 43-issue backlog to create on GitHub.
+5. [docs/ETHICS_AND_SAFETY.md](docs/ETHICS_AND_SAFETY.md) — read and agree before writing code.
 
 ## Architecture at a glance
 
@@ -50,6 +51,8 @@ Full-size diagrams and the data-to-metrics pipeline: [docs/diagrams/](docs/diagr
 
 ## Quick start (any laptop, no GPU, no paid services)
 
+**macOS, Linux, or Windows with WSL2** (Python 3.11 and `make` installed):
+
 ```bash
 git clone https://github.com/sathpal/vishield.git && cd vishield
 make setup            # or: make setup-uv   (creates .venv, installs [dev] extras, copies .env)
@@ -60,6 +63,21 @@ make run              # API on http://localhost:8000/docs, dashboard on http://l
 ```
 
 Run `make check` (Ruff + mypy strict + pytest) before every pull request.
+
+**Windows, native PowerShell** (Python 3.11 from python.org or `winget install Python.Python.3.11`):
+
+```powershell
+git clone https://github.com/sathpal/vishield.git; cd vishield
+py -3.11 -m venv .venv; .\.venv\Scripts\Activate.ps1
+pip install -e ".[dev]"; Copy-Item .env.example .env
+python scripts\validate_dataset.py; python scripts\split_dataset.py
+python scripts\train_model.py; python scripts\evaluate_model.py
+uvicorn vishield.api.app:app --reload --port 8000          # window 1
+streamlit run src\vishield\dashboard\app.py --server.port 8501   # window 2 (activate .venv first)
+```
+
+Before a pull request run `ruff check .`, `mypy` and `pytest`. Full walkthrough for both
+platforms, including ffmpeg, Docker and troubleshooting: [docs/SETUP_AND_EVALUATION.md](docs/SETUP_AND_EVALUATION.md).
 
 ## How to evaluate
 

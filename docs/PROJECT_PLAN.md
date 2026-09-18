@@ -7,6 +7,8 @@ looks like voice phishing, using only synthetic/consented data and defensive tec
 
 ## Calendar (cohort starting Monday 21 September 2026)
 
+Gantt view and checkpoints: [TIMELINE.md](TIMELINE.md).
+
 | Phase | Weeks | Dates | Milestone due | Checkpoints |
 |---|---|---|---|---|
 | 1 Foundations | 1–2 | 21 Sep – 2 Oct | **M1** Fri 2 Oct | Ethics review meeting (week 1); Sprint review 1 (2 Oct) |
