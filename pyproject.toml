@@ -31,7 +31,7 @@ dependencies = [
   "soundfile>=0.12",
   "streamlit>=1.33,<2.0",
   "plotly>=5.20,<6.0",
-  "pandas>=2.2,<3.0",
+  "pandas>=2.2,<4.0",
   "requests>=2.31,<3.0",
   "prometheus-client>=0.20",
 ]
